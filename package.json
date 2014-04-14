@@ -1,0 +1,17 @@
+{
+  "name": "quartz",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "3.4.8",
+    "rd": "0.0.2",
+    "underscore": "~1.6.0",
+    "async": "~0.2.10",
+    "execSync": "~1.0.1-pre",
+    "html-minifier": "~0.5.5",
+    "clean-css": "~2.1.6"
+  }
+}

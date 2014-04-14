@@ -1,0 +1,319 @@
+/*   
+Theme Name: mylist
+Theme URI: http://dnartz.me/theme
+Description: A very clean minimalist theme.
+Author: dnartz
+Original author: Leo Babauta
+Original author URI: http://mnmlist.com
+.
+This theme is uncopyrighted, free, and offered as is.
+.
+*/
+body {
+    background: #fff;
+    font-family: "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+    color: #333;
+    line-height: 30px;
+}
+
+h1 {
+    font-size: 1em;
+    color: #333;
+    font-weight: normal;
+    padding: 20px 0px 0px 0px;
+}
+
+h2 {
+    font-size: 1.5em;
+    color: #333;
+    line-height: 26px;
+    font-weight: normal;
+    padding: 5px 0px 10px 0px;
+}
+
+h3 {
+    font-size: 18px;
+    color: #666;
+    line-height: 15px;
+    text-indent: 0px;
+    padding: 10px 0px 0px 0px;
+}
+
+h4 {
+    font-size: 1em;
+    color: #000000;
+}
+
+h5 {
+    font-size: 9pt;
+    color: #000000;
+}
+
+img {
+    border: none;
+    border-radius: 5px;
+    max-width: 100%;
+}
+
+img a {
+    border: none;
+}
+
+blockquote {
+    border-left: 5px solid #A5ABAB;
+    margin: 0px;
+    padding: 0 12px 0 12px;
+}
+
+p {
+    line-height: 30px;
+    margin: 30px auto;
+    text-indent: 0px;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:link {
+    color: #333;
+    text-decoration: none;
+}
+
+a:visited {
+    color: #333;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #999;
+    text-decoration: none;
+}
+
+em {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+ul {
+    padding: .5em 0em 1em 3.2em;
+}
+
+li {
+    line-height: 30px;
+    padding: 6px 0 0 0;
+}
+
+ol {
+    padding: .5em 0em 0em 3.2em;
+}
+
+li {
+    line-height: 30px;
+    padding: 6px 0 0 0;
+}
+
+#container {
+    margin-bottom: 40px;
+}
+
+#content {
+    overflow: hidden;
+    margin-top: 60px;
+    margin-left: 64px;
+    margin-right: 14px;
+    margin-bottom: 0px;
+}
+
+.entry a:link {
+    color: #303030;
+    text-decoration: none;
+    border-width: 0 0 1px 0;
+    border-style: none none solid none;
+    border-color: #C0C0C0;
+}
+
+.tags-list {
+    color: #777777;
+}
+
+.tag {
+    color: #777777 !important;
+    border-bottom: 1px #333333 dashed;
+}
+
+.entry a:visited {
+    color: #303030;
+    text-decoration: none;
+    border-width: 0 0 1px 0;
+    border-style: none none solid none;
+    border-color: #C0C0C0;
+}
+
+#content, .post, .entry, .entry > p {
+    width: 38em;
+}
+
+.post {
+    margin-bottom: 100px;
+}
+
+.post-info {
+    color: #C0C0C0;
+}
+
+.paginator {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.entry a:hover {
+    color: #999;
+    border-width: 0 0 1px 0;
+    border-style: none none solid none;
+    border-color: #C0C0C0;
+    text-decoration: none;
+}
+
+.read-more {
+    text-align: right;
+}
+
+.more-link:visited {
+    color: #C0C0C0;
+}
+
+.entry strong {
+    font-weight: bold;
+    color: #555555;
+}
+
+#footer {
+    margin-left: 115px
+}
+
+#footer {
+    background: #fff;
+    clear: both;
+}
+
+#footer p {
+    padding: 4px 0;
+    margin: 0;
+    color: #666;
+    font-size: 13px;
+    letter-spacing: 4px
+}
+
+#footer a {
+    color: #c0c0c0;
+    text-decoration: none;
+}
+
+#footer a:hover {
+    color: #999;
+    text-decoration: none;
+}
+
+#arc {
+    float: right;
+    width: 530px;
+    overflow: hidden;
+    margin-top: 0px;
+    margin-left: 14px;
+    margin-right: 14px;
+    margin-bottom: 24px;
+}
+
+.arc p {
+    color: #666;
+    font-size: 12px;
+    font-weight: normal !important;
+}
+
+.year th {
+    color: #666;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.arctitle {
+    color: #666;
+    font-size: 12px;
+    font-weight: normal;
+}
+
+.arctitle th {
+    color: #999;
+    font-size: 14px;
+    font-weight: normal;
+}
+
+.arc2 {
+    color: #999;
+    font-size: 12px;
+    font-weight: normal !important;
+}
+
+.arc2 th {
+    color: #999;
+    font-size: 12px;
+    font-weight: normal !important;
+}
+
+#bottom-menu {
+    position: fixed;
+    right: 100px;
+    bottom: 60px;
+}
+
+#bottom-menu-img {
+    width: 36px;
+    height: 36px;
+    border-radius: 18px;
+    background-color: #000000;
+    opacity: 0.10;
+}
+
+#bottom-menu-content {
+    visibility: hidden;
+    position: fixed;
+    bottom: 63px;
+    right: 111px;
+    color: #101010;
+}
+
+#search {
+    display: inline;
+    box-sizing: border-box;
+    text-align: start;
+    letter-spacing: normal;
+    word-spacing: normal;
+    text-transform: none;
+    text-indent: 0px;
+    text-shadow: none;
+    font: -webkit-small-control;
+    -webkit-rtl-ordering: logical;
+    -webkit-user-select: text;
+    cursor: auto;
+    -webkit-appearance: textfield;
+    outline-offset: -2px;
+    unicode-bidi: -webkit-isolate;
+    margin: 0;
+    font-family: inherit;
+    -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    height: 30px;
+    padding: 6px 6px;
+    line-height: 1.428571429;
+    color: #555;
+}
+
+#search:focus {
+    border-color: #66afe9;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
+}

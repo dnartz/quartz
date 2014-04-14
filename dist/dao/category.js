@@ -1,0 +1,1 @@
+var categories,fs,post,posts,_i,_len;for(fs=require("fs"),posts=require("./post").posts,categories=[],_i=0,_len=posts.length;_len>_i;_i++)post=posts[_i],-1===categories.indexOf(post.category)&&categories.push(post.category);module.exports=categories,fs.writeFile(__dirname+"/../data/categories.json",JSON.stringify(categories),{encoding:"utf-8",flag:"w"},function(){});

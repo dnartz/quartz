@@ -1,0 +1,1 @@
+module.exports={HTMLType:"text/html",blogPublic:!0,allowComments:!0,postFileds:["id","author","title","postDate","commentCount","category","content","tags"],themesList:["mylist","casper"],maxPostPerRequest:15};

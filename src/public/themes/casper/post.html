@@ -1,0 +1,39 @@
+<main class="content" role="main">
+
+    <article class="post">
+
+        <!-- Each post has the blog logo at the top, with a link back to the home page -->
+        <header class="post-header">
+            <a class="blog-logo" href="{{meta.homePage}}">
+                <img src="http://www.gravatar.com/avatar/{{meta.emailMD5}}&s=100" alt="Blog Logo"/>
+            </a>
+        </header>
+
+        <!-- Everything inside the #post tags pulls data from the post -->
+            <span class="post-meta">
+            <time datetime="{{post.postDate | date:'yyyy-mm-dd'}}" ng-bind="post.postDate | date:'yyyy-mm-dd'"></time>
+                <span ng-if="post.tags.length>0">
+                   on&nbsp;
+                   <span ng-repeat-start="tag in post.tags" ng-bind="tag"></span>
+                   <span ng-repeat-end ng-bind="$last?'':' | '"></span>
+                </span>
+            </span>
+
+            <h1 class="post-title" ng-bind="post.title"></h1>
+
+            <section class="post-content" ng-bind="post.content"></section>
+
+            <footer class="post-footer">
+
+                <section class="author">
+                    <h4>{{author.name}}</h4>
+                    <p>{{author.bio}}</p>
+                    <ul class="author-meta clearfix">
+                        {{#if author.location}}<li>{{author.location}}</li>{{/if}}
+                        {{#if author.website}}<li><a href="{{author.website}}">{{author.website}}</a></li>{{/if}}
+                    </ul>
+                </section>
+            </footer>
+    </article>
+
+</main>

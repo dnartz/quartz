@@ -1,0 +1,31 @@
+/*
+ * 美化浏览器滚动条
+ */
+
+html::-webkit-scrollbar-track-piece {
+    background: #C0C0C0;
+}
+
+html::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+html::-webkit-scrollbar-thumb {
+    height: 40px;
+    background-color: #888;
+}
+
+html::-moz-scrollbar-track-piece {
+    background: #C0C0C0;
+}
+
+html::-moz-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+html::-moz-scrollbar-thumb {
+    height: 40px;
+    background-color: #888;
+}
