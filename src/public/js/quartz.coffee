@@ -11,6 +11,7 @@ angular.module('quartz', ['quartz.services', 'quartz.config', 'quartz.theme', 'n
 			# 判断当前页面
 			currentRoute = currentRoute.$$route.originalPath
 			$rootScope.meta.isHomePage = currentRoute is routeUrls.HomePage
+			$rootScope.meta.isSinglePost = currentRoute is routeUrls.Single
 			$rootScope.meta.is404 = currentRoute is routeUrls['404']
 			$rootScope.meta.isArchive = currentRoute is routeUrls.Archive
 			$rootScope.meta.isCategory = currentRoute is routeUrls.Category
