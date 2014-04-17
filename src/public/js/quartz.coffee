@@ -23,24 +23,24 @@ quartzService = angular.module('quartz.services', ['ngResource', 'ngRoute'])
 .service('titleFn', ['$rootScope', '$route', ($rootScope, $route)->
 		(type)->
 			$rootScope.meta.title = ({
-				Post: ->
+				Post : ->
 					$rootScope.post.title + ' | ' + $rootScope.meta.blogName
-				HomePage: ->
+				HomePage : ->
 					$rootScope.meta.blogName + ' | ' + $rootScope.meta.blogDescription
-				Category: ->
+				Category : ->
 					'» ' + $route.current.params.category + ' | ' + $rootScope.meta.blogName
-				Tag: ->
+				Tag : ->
 					'» ' + $route.current.params.tag + ' | ' + $rootScope.meta.blogName
-				Archive: ->
+				Archive : ->
 					"» 所有文章 | #{$rootScope.meta.blogName}"
-				"404": ->
+				"404" : ->
 					"404 | #{$rootScope.meta.blogName}"
 			})[type]()
 	])
 
 # 多篇文章的服务
 quartzService.factory('Post', ['$resource', ($resource)->
-	return $resource '/api/p/:id', {id: '@id'}
+	return $resource '/api/p/:id', {id : '@id'}
 ]).factory('MultiPostLoader', ['Post', 'Category', 'Tag', '$rootScope', '$q', '$route', 'titleFn'
 	(Post, Category, Tag, $rootScope, $q, $route, titleFn)->
 		prevType = ''
@@ -49,7 +49,7 @@ quartzService.factory('Post', ['$resource', ($resource)->
 		(args)->
 			delay = $q.defer()
 
-			typ = ({Post: Post, Category: Category, Tag: Tag })[args.type]
+			typ = ({Post : Post, Category : Category, Tag : Tag })[args.type]
 			if $route.current.$$route.orginalPath = '/' then ttyp = 'HomePage' else ttyp = args.type
 
 			# 判断是否为同一页面的请求
@@ -91,7 +91,7 @@ quartzService.factory('PostLoader', ['Post', '$q', '$route', '$rootScope' , 'tit
 	(Post, $q, $route, $rootScope, titleFn)->
 		->
 			delay = $q.defer()
-			Post.get id: $route.current.params.id, (post) ->
+			Post.get id : $route.current.params.id, (post) ->
 				if post.title != $route.current.params.title then window.location = '/404'
 				$rootScope.post = post
 				titleFn('Post');
@@ -103,12 +103,12 @@ quartzService.factory('PostLoader', ['Post', '$q', '$route', '$rootScope' , 'tit
 
 # 文章分类服务
 quartzService.factory('Category', ['$resource', ($resource)->
-	return $resource '/api/category/:category', {category: '@category'}
+	return $resource '/api/category/:category', {category : '@category'}
 ])
 
 # 文章标签服务
 quartzService.factory('Tag', ['$resource', ($resource)->
-	return $resource('/api/tag/:tag', {tag: '@tag'})
+	return $resource('/api/tag/:tag', {tag : '@tag'})
 ])
 
 # 文章存档服务
@@ -119,8 +119,8 @@ quartzService.factory('Archive', ['$resource', ($resource)->
 		delay = $q.defer()
 
 		Archive.get({
-				get: properties
-				moreTag: moreTag
+				get : properties
+				moreTag : moreTag
 			}, (archive)->
 			titleFn 'Archive'
 			delay.resolve archive
@@ -146,10 +146,10 @@ quartzService.factory('NotFoundLoader',
 
 # 博客系统的常量以及变量初始化
 quartzConfig = angular.module('quartz.config', []).constant('routeUrls', {
-	HomePage: '/'
-	"404": '/404'
-	Archive: '/archive'
-	Category: '/category/:category'
-	Single: '/:id/:title'
-	Tag: '/tag/:tag'
+	HomePage : '/'
+	"404" : '/404'
+	Archive : '/archive'
+	Category : '/category/:category'
+	Single : '/:id/:title'
+	Tag : '/tag/:tag'
 }).constant('maxPostsPerReq', 15)

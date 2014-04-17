@@ -1,6 +1,8 @@
-module.exports=[{
-	uid:1
-	name:'quartz'
-	password:''
-	created:''
-}]
+module.exports = [
+	{
+		uid : 1
+		name : 'quartz'
+		password : ''
+		created : ''
+	}
+]

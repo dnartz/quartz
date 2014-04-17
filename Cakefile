@@ -40,25 +40,25 @@ make = (isDev = true)->
 	# -----------------
 	# 复制所有静态资源
 	include = ['*/',
-	           'package.json',
-	           'data/*.json'
-	           'data/posts/*.json',
-	           'data/config/*.json',
-	           'data/comments/*.json',
-	           'utility/md5.js',
-	           'public/favicon.ico',
-	           'public/js/*.js',
-	           'public/css/*.css',
-	           'public/themes/casper/css/*',
-	           'public/themes/casper/fonts/*',
-	           'public/themes/casper/js/*.js',
-	           'public/themes/tanzaku/js/*.js',
-	           'public/themes/*/*.html',
-	           'public/themes/*/*.css']
+						 'package.json',
+						 'data/*.json'
+						 'data/posts/*.json',
+						 'data/config/*.json',
+						 'data/comments/*.json',
+						 'utility/md5.js',
+						 'public/favicon.ico',
+						 'public/js/*.js',
+						 'public/css/*.css',
+						 'public/themes/casper/css/*',
+						 'public/themes/casper/fonts/*',
+						 'public/themes/casper/js/*.js',
+						 'public/themes/tanzaku/js/*.js',
+						 'public/themes/*/*.html',
+						 'public/themes/*/*.css']
 	exclude = ['*',
-	           'public/themes/*/*.js',
-	           'public/themes/*/*.map',
-	           'public/themes/*/*.coffee']
+						 'public/themes/*/*.js',
+						 'public/themes/*/*.map',
+						 'public/themes/*/*.coffee']
 	rsyncCmd = 'rsync -a --include \'' + include.join('\' --include \'') + '\' --exclude \'' + exclude.join('\' --exclude \'') + "\' #{SRC} #{DIST}"
 	runCmd rsyncCmd
 
@@ -69,21 +69,21 @@ make = (isDev = true)->
 
 	# 直接编译的目录
 	direct = ['dao',
-	          'data',
-	          'models',
-	          'utility',
-	          'public/js',
-	          'public/themes']
+						'data',
+						'models',
+						'utility',
+						'public/js',
+						'public/themes']
 	runCmd ("coffee -b -c -o #{DIST}#{dir} #{SRC}#{dir}" )for dir in direct
 
 	# 不进行变量改名的JavaScript文件列表
 	noMt = (['public/js/quartz.js',
-	         'public/themes/mylist/mylist.js',
-	         'public/themes/tanzaku/tanzaku.js',
-	         'public/themes/casper/casper.js']).map (a) -> return DIST + a
+					 'public/themes/mylist/mylist.js',
+					 'public/themes/tanzaku/tanzaku.js',
+					 'public/themes/casper/casper.js']).map (a) -> return DIST + a
 
 	# 生产环境下，压缩所有html,js,css
-	rd.eachSync DIST, (f)->
+	rd.eachSync "#{DIST}public", (f)->
 		fs.open f, 'r', (err)->
 			if !err and isDev is false
 				if '.js' is path.extname f
@@ -91,18 +91,18 @@ make = (isDev = true)->
 					runCmd "uglifyjs #{mt} -c -o #{f} #{f}"
 				else if '.html' is path.extname f
 					fs.writeFileSync f, minify(fs.readFileSync(f, 'utf-8'), {
-						removeComments: true
-						removeCommentsFromCDATA: true
-						removeCDATASectionsFromCDATA: true
-						collapseWhitespace: true
-						collapseBooleanAttributes: true
-						removeAttributeQuotes: false
-						removeRedundantAttributes: false
-						useShortDoctype: true
-						removeEmptyAttributes: false
-						removeOptionalTags: false
-						removeEmptyElements: false
-					}), {encoding: 'utf-8'}
+						removeComments : true
+						removeCommentsFromCDATA : true
+						removeCDATASectionsFromCDATA : true
+						collapseWhitespace : true
+						collapseBooleanAttributes : true
+						removeAttributeQuotes : false
+						removeRedundantAttributes : false
+						useShortDoctype : true
+						removeEmptyAttributes : false
+						removeOptionalTags : false
+						removeEmptyElements : false
+					}), {encoding : 'utf-8'}
 				else if '.css' is path.extname f
 					runCmd "cleancss -o #{f} #{f}"
 

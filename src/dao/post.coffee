@@ -22,7 +22,8 @@ for filename in JSONList
 	postsIdIndex[_.last(posts).id] = _.last posts
 
 # 按发表日期，从新到旧排列文章
-posts.sort (a, b)-> b.postDate - a.postDate
+posts.sort (a, b)->
+	b.postDate - a.postDate
 
 tags = []
 tagsIndex = {}

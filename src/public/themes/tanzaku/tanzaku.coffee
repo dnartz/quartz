@@ -3,67 +3,67 @@ angular.module('quartz.theme', ['quartz.config', 'ngRoute', 'infinite-scroll'])
 		($routeProvider, routeUrls, maxPostsPerReq)->
 			# 主页
 			$routeProvider.when(routeUrls.HomePage, {
-				controller: 'MultiPostCtrl'
-				resolve:
-					posts: (MultiPostLoader)->
+				controller : 'MultiPostCtrl'
+				resolve :
+					posts : (MultiPostLoader)->
 						MultiPostLoader {
-							type: 'Post'
-							offset: 0
-							limit: maxPostsPerReq
-							get: ['id', 'tags', 'title', 'content', 'postDate', 'category']
-							moreTag: true
+							type : 'Post'
+							offset : 0
+							limit : maxPostsPerReq
+							get : ['id', 'tags', 'title', 'content', 'postDate', 'category']
+							moreTag : true
 						}
-					type: ->
+					type : ->
 						'Post'
-				templateUrl: 'multipost.html'
+				templateUrl : 'multipost.html'
 
 			# 分类
 			}).when(routeUrls.Category, {
-				controller: 'MultiPostCtrl'
-				resolve:
-					posts: (MultiPostLoader)->
+				controller : 'MultiPostCtrl'
+				resolve :
+					posts : (MultiPostLoader)->
 						MultiPostLoader {
-							type: 'Category'
-							offset: 0
-							limit: maxPostsPerReq
-							get: ['id', 'tags', 'title', 'content', 'postDate']
-							moreTag: true
+							type : 'Category'
+							offset : 0
+							limit : maxPostsPerReq
+							get : ['id', 'tags', 'title', 'content', 'postDate']
+							moreTag : true
 						}
-					type: ->
+					type : ->
 						'Category'
-				templateUrl: 'multipost.html'
+				templateUrl : 'multipost.html'
 
 			# 标签
 			}).when(routeUrls.Tag, {
-				controller: 'MultiPostCtrl'
-				resolve:
-					posts: (MultiPostLoader)->
+				controller : 'MultiPostCtrl'
+				resolve :
+					posts : (MultiPostLoader)->
 						MultiPostLoader {
-							type: 'Tag'
-							offset: 0
-							limit: maxPostsPerReq
-							get: ['id', 'tags', 'title', 'content', 'postDate', 'category']
-							moreTag: true
+							type : 'Tag'
+							offset : 0
+							limit : maxPostsPerReq
+							get : ['id', 'tags', 'title', 'content', 'postDate', 'category']
+							moreTag : true
 						}
-					type: ->
+					type : ->
 						'Tag'
-				templateUrl: 'multipost.html'
+				templateUrl : 'multipost.html'
 			# 单篇文章
 			}).when(routeUrls.Single, {
-				controller: 'PostCtrl'
-				resolve:
-					post: (PostLoader)->
+				controller : 'PostCtrl'
+				resolve :
+					post : (PostLoader)->
 						PostLoader()
-				templateUrl: '/public/themes/tanzaku/post.html'
+				templateUrl : '/public/themes/tanzaku/post.html'
 
 			# 404页面
 			}).when(routeUrls['404'], {
-				resolve:
-					t: (NotFoundLoader)->
+				resolve :
+					t : (NotFoundLoader)->
 						NotFoundLoader()
-				controller: 'NotFoundCtrl'
-				templateUrl: '/public/themes/tanzaku/404.html'
-			}).otherwise({redirectTo: '/404'})
+				controller : 'NotFoundCtrl'
+				templateUrl : '/public/themes/tanzaku/404.html'
+			}).otherwise({redirectTo : '/404'})
 	]).service('redrawGrid', ['$rootScope', ($rootScope)->
 		lastPostCount = 0
 		###*
@@ -71,22 +71,40 @@ angular.module('quartz.theme', ['quartz.config', 'ngRoute', 'infinite-scroll'])
 		###
 		setGrid = ->
 			$("#grid-wrapper").vgrid
-				easeing: "easeOutQuint"
-				time: 500
-				delay: 0
-				selRefGrid: "#grid-wrapper div.x1"
-				selFitWidth: [
+				easeing : "easeOutQuint"
+				time : 500
+				delay : 0
+				selRefGrid : "#grid-wrapper div.x1"
+				selFitWidth : [
 					"#container"
 					"#footer"
 				]
-				gridDefWidth: 290 + 15 + 15 + 5
-				forceAnim: true
+				gridDefWidth : 290 + 15 + 15 + 5
+				forceAnim : true
+		# 对一些比含有较大的图片的文章，我们可以适当增大其宽度
+		MAX_COL_SIZE = 2 # 每列最大大小(x1, x2, ……, xn)
+		COL_WIDTH = 395 # 每列最大宽度
+		COL_GAP_WIDTH = 35 # 每列间距
+
+		# 各大小宽度数组
+		arrWidth = (((COL_WIDTH * (x + 1)) + (COL_GAP_WIDTH * x)) for x in [0..MAX_COL_SIZE])
 		->
-			# 对一些比含有较大的图片的文章，我们可以适当增大其宽度
-			postDivs = $('#grid-wrapper>div:not(:has(>.grid-image))>.post-body')
-			for postDiv in postDivs
+			postDivs = $ '#grid-wrapper>div:not(:has(>.grid-image))'
+			for postDiv, index in postDivs
 				# 如果找到合适的图片，那么就计算是否需要进行调整
-				#if $(postDiv).find('img').first().length>0
+				img = $(postDiv).find('img').first()[0];
+				if img?
+					width = img.clientWidth
+					height = img.clientHeight
+
+					for i in [0..MAX_COL_SIZE]
+						if (i >= MAX_COL_SIZE - 1) or (width < arrWidth[i + 1])
+							newWidth = arrWidth[i]
+							colClass = 'x' + (i + 1)
+							break
+					newHeight = parseInt(newWidth * (height / width), 10)
+					$('#' + $(postDiv).attr('id') + '>.post-title').after("<div class=\"grid-image\"><a href=\"/{{post.id}}/{{post.title}}\" title=\"{{post.title}}\"><img src=\"#{$(img).attr('src')}\"></a>");
+					$(img).remove()
 
 			if $rootScope.posts?.length is lastPostCount then return null
 
@@ -121,11 +139,11 @@ angular.module('quartz.theme', ['quartz.config', 'ngRoute', 'infinite-scroll'])
 				if $rootScope.LoadMoreLock isnt true
 					$rootScope.LoadMoreLock = true
 					MultiPostLoader({
-						type: type
-						offset: $rootScope.lastPostOrd
-						limit: maxPostsPerReq
-						get: ['id', 'tags', 'title', 'content', 'postDate']
-						moreTag: true
+						type : type
+						offset : $rootScope.lastPostOrd
+						limit : maxPostsPerReq
+						get : ['id', 'tags', 'title', 'content', 'postDate']
+						moreTag : true
 					}).then redrawGrid
 				if ($rootScope.allPostsLoaded) then $rootScope.LoadMore = ->
 

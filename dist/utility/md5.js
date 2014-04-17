@@ -1,1 +1,186 @@
-function md5cycle(f,h){var i=f[0],r=f[1],n=f[2],d=f[3];i=ff(i,r,n,d,h[0],7,-680876936),d=ff(d,i,r,n,h[1],12,-389564586),n=ff(n,d,i,r,h[2],17,606105819),r=ff(r,n,d,i,h[3],22,-1044525330),i=ff(i,r,n,d,h[4],7,-176418897),d=ff(d,i,r,n,h[5],12,1200080426),n=ff(n,d,i,r,h[6],17,-1473231341),r=ff(r,n,d,i,h[7],22,-45705983),i=ff(i,r,n,d,h[8],7,1770035416),d=ff(d,i,r,n,h[9],12,-1958414417),n=ff(n,d,i,r,h[10],17,-42063),r=ff(r,n,d,i,h[11],22,-1990404162),i=ff(i,r,n,d,h[12],7,1804603682),d=ff(d,i,r,n,h[13],12,-40341101),n=ff(n,d,i,r,h[14],17,-1502002290),r=ff(r,n,d,i,h[15],22,1236535329),i=gg(i,r,n,d,h[1],5,-165796510),d=gg(d,i,r,n,h[6],9,-1069501632),n=gg(n,d,i,r,h[11],14,643717713),r=gg(r,n,d,i,h[0],20,-373897302),i=gg(i,r,n,d,h[5],5,-701558691),d=gg(d,i,r,n,h[10],9,38016083),n=gg(n,d,i,r,h[15],14,-660478335),r=gg(r,n,d,i,h[4],20,-405537848),i=gg(i,r,n,d,h[9],5,568446438),d=gg(d,i,r,n,h[14],9,-1019803690),n=gg(n,d,i,r,h[3],14,-187363961),r=gg(r,n,d,i,h[8],20,1163531501),i=gg(i,r,n,d,h[13],5,-1444681467),d=gg(d,i,r,n,h[2],9,-51403784),n=gg(n,d,i,r,h[7],14,1735328473),r=gg(r,n,d,i,h[12],20,-1926607734),i=hh(i,r,n,d,h[5],4,-378558),d=hh(d,i,r,n,h[8],11,-2022574463),n=hh(n,d,i,r,h[11],16,1839030562),r=hh(r,n,d,i,h[14],23,-35309556),i=hh(i,r,n,d,h[1],4,-1530992060),d=hh(d,i,r,n,h[4],11,1272893353),n=hh(n,d,i,r,h[7],16,-155497632),r=hh(r,n,d,i,h[10],23,-1094730640),i=hh(i,r,n,d,h[13],4,681279174),d=hh(d,i,r,n,h[0],11,-358537222),n=hh(n,d,i,r,h[3],16,-722521979),r=hh(r,n,d,i,h[6],23,76029189),i=hh(i,r,n,d,h[9],4,-640364487),d=hh(d,i,r,n,h[12],11,-421815835),n=hh(n,d,i,r,h[15],16,530742520),r=hh(r,n,d,i,h[2],23,-995338651),i=ii(i,r,n,d,h[0],6,-198630844),d=ii(d,i,r,n,h[7],10,1126891415),n=ii(n,d,i,r,h[14],15,-1416354905),r=ii(r,n,d,i,h[5],21,-57434055),i=ii(i,r,n,d,h[12],6,1700485571),d=ii(d,i,r,n,h[3],10,-1894986606),n=ii(n,d,i,r,h[10],15,-1051523),r=ii(r,n,d,i,h[1],21,-2054922799),i=ii(i,r,n,d,h[8],6,1873313359),d=ii(d,i,r,n,h[15],10,-30611744),n=ii(n,d,i,r,h[6],15,-1560198380),r=ii(r,n,d,i,h[13],21,1309151649),i=ii(i,r,n,d,h[4],6,-145523070),d=ii(d,i,r,n,h[11],10,-1120210379),n=ii(n,d,i,r,h[2],15,718787259),r=ii(r,n,d,i,h[9],21,-343485551),f[0]=add32(i,f[0]),f[1]=add32(r,f[1]),f[2]=add32(n,f[2]),f[3]=add32(d,f[3])}function cmn(f,h,i,r,n,d){return h=add32(add32(h,f),add32(r,d)),add32(h<<n|h>>>32-n,i)}function ff(f,h,i,r,n,d,g){return cmn(h&i|~h&r,f,h,n,d,g)}function gg(f,h,i,r,n,d,g){return cmn(h&r|i&~r,f,h,n,d,g)}function hh(f,h,i,r,n,d,g){return cmn(h^i^r,f,h,n,d,g)}function ii(f,h,i,r,n,d,g){return cmn(i^(h|~r),f,h,n,d,g)}function md51(f){txt="";var h,i=f.length,r=[1732584193,-271733879,-1732584194,271733878];for(h=64;h<=f.length;h+=64)md5cycle(r,md5blk(f.substring(h-64,h)));f=f.substring(h-64);var n=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];for(h=0;h<f.length;h++)n[h>>2]|=f.charCodeAt(h)<<(h%4<<3);if(n[h>>2]|=128<<(h%4<<3),h>55)for(md5cycle(r,n),h=0;16>h;h++)n[h]=0;return n[14]=8*i,md5cycle(r,n),r}function md5blk(f){var h,i=[];for(h=0;64>h;h+=4)i[h>>2]=f.charCodeAt(h)+(f.charCodeAt(h+1)<<8)+(f.charCodeAt(h+2)<<16)+(f.charCodeAt(h+3)<<24);return i}function rhex(f){for(var h="",i=0;4>i;i++)h+=hex_chr[f>>8*i+4&15]+hex_chr[f>>8*i&15];return h}function hex(f){for(var h=0;h<f.length;h++)f[h]=rhex(f[h]);return f.join("")}function add32(f,h){return f+h&4294967295}function add32(f,h){var i=(65535&f)+(65535&h),r=(f>>16)+(h>>16)+(i>>16);return r<<16|65535&i}var hex_chr="0123456789abcdef".split(""),md5=function(f){return hex(md51(f))};"5d41402abc4b2a76b9719d911017c592"!=md5("hello"),module.exports=md5;
+function md5cycle(x, k) {
+  var a = x[0], b = x[1], c = x[2], d = x[3];
+
+  a = ff(a, b, c, d, k[0], 7, -680876936);
+  d = ff(d, a, b, c, k[1], 12, -389564586);
+  c = ff(c, d, a, b, k[2], 17, 606105819);
+  b = ff(b, c, d, a, k[3], 22, -1044525330);
+  a = ff(a, b, c, d, k[4], 7, -176418897);
+  d = ff(d, a, b, c, k[5], 12, 1200080426);
+  c = ff(c, d, a, b, k[6], 17, -1473231341);
+  b = ff(b, c, d, a, k[7], 22, -45705983);
+  a = ff(a, b, c, d, k[8], 7, 1770035416);
+  d = ff(d, a, b, c, k[9], 12, -1958414417);
+  c = ff(c, d, a, b, k[10], 17, -42063);
+  b = ff(b, c, d, a, k[11], 22, -1990404162);
+  a = ff(a, b, c, d, k[12], 7, 1804603682);
+  d = ff(d, a, b, c, k[13], 12, -40341101);
+  c = ff(c, d, a, b, k[14], 17, -1502002290);
+  b = ff(b, c, d, a, k[15], 22, 1236535329);
+
+  a = gg(a, b, c, d, k[1], 5, -165796510);
+  d = gg(d, a, b, c, k[6], 9, -1069501632);
+  c = gg(c, d, a, b, k[11], 14, 643717713);
+  b = gg(b, c, d, a, k[0], 20, -373897302);
+  a = gg(a, b, c, d, k[5], 5, -701558691);
+  d = gg(d, a, b, c, k[10], 9, 38016083);
+  c = gg(c, d, a, b, k[15], 14, -660478335);
+  b = gg(b, c, d, a, k[4], 20, -405537848);
+  a = gg(a, b, c, d, k[9], 5, 568446438);
+  d = gg(d, a, b, c, k[14], 9, -1019803690);
+  c = gg(c, d, a, b, k[3], 14, -187363961);
+  b = gg(b, c, d, a, k[8], 20, 1163531501);
+  a = gg(a, b, c, d, k[13], 5, -1444681467);
+  d = gg(d, a, b, c, k[2], 9, -51403784);
+  c = gg(c, d, a, b, k[7], 14, 1735328473);
+  b = gg(b, c, d, a, k[12], 20, -1926607734);
+
+  a = hh(a, b, c, d, k[5], 4, -378558);
+  d = hh(d, a, b, c, k[8], 11, -2022574463);
+  c = hh(c, d, a, b, k[11], 16, 1839030562);
+  b = hh(b, c, d, a, k[14], 23, -35309556);
+  a = hh(a, b, c, d, k[1], 4, -1530992060);
+  d = hh(d, a, b, c, k[4], 11, 1272893353);
+  c = hh(c, d, a, b, k[7], 16, -155497632);
+  b = hh(b, c, d, a, k[10], 23, -1094730640);
+  a = hh(a, b, c, d, k[13], 4, 681279174);
+  d = hh(d, a, b, c, k[0], 11, -358537222);
+  c = hh(c, d, a, b, k[3], 16, -722521979);
+  b = hh(b, c, d, a, k[6], 23, 76029189);
+  a = hh(a, b, c, d, k[9], 4, -640364487);
+  d = hh(d, a, b, c, k[12], 11, -421815835);
+  c = hh(c, d, a, b, k[15], 16, 530742520);
+  b = hh(b, c, d, a, k[2], 23, -995338651);
+
+  a = ii(a, b, c, d, k[0], 6, -198630844);
+  d = ii(d, a, b, c, k[7], 10, 1126891415);
+  c = ii(c, d, a, b, k[14], 15, -1416354905);
+  b = ii(b, c, d, a, k[5], 21, -57434055);
+  a = ii(a, b, c, d, k[12], 6, 1700485571);
+  d = ii(d, a, b, c, k[3], 10, -1894986606);
+  c = ii(c, d, a, b, k[10], 15, -1051523);
+  b = ii(b, c, d, a, k[1], 21, -2054922799);
+  a = ii(a, b, c, d, k[8], 6, 1873313359);
+  d = ii(d, a, b, c, k[15], 10, -30611744);
+  c = ii(c, d, a, b, k[6], 15, -1560198380);
+  b = ii(b, c, d, a, k[13], 21, 1309151649);
+  a = ii(a, b, c, d, k[4], 6, -145523070);
+  d = ii(d, a, b, c, k[11], 10, -1120210379);
+  c = ii(c, d, a, b, k[2], 15, 718787259);
+  b = ii(b, c, d, a, k[9], 21, -343485551);
+
+  x[0] = add32(a, x[0]);
+  x[1] = add32(b, x[1]);
+  x[2] = add32(c, x[2]);
+  x[3] = add32(d, x[3]);
+
+}
+
+function cmn(q, a, b, x, s, t) {
+  a = add32(add32(a, q), add32(x, t));
+  return add32((a << s) | (a >>> (32 - s)), b);
+}
+
+function ff(a, b, c, d, x, s, t) {
+  return cmn((b & c) | ((~b) & d), a, b, x, s, t);
+}
+
+function gg(a, b, c, d, x, s, t) {
+  return cmn((b & d) | (c & (~d)), a, b, x, s, t);
+}
+
+function hh(a, b, c, d, x, s, t) {
+  return cmn(b ^ c ^ d, a, b, x, s, t);
+}
+
+function ii(a, b, c, d, x, s, t) {
+  return cmn(c ^ (b | (~d)), a, b, x, s, t);
+}
+
+function md51(s) {
+  txt = '';
+  var n = s.length,
+    state = [1732584193, -271733879, -1732584194, 271733878], i;
+  for (i = 64; i <= s.length; i += 64) {
+    md5cycle(state, md5blk(s.substring(i - 64, i)));
+  }
+  s = s.substring(i - 64);
+  var tail = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+  for (i = 0; i < s.length; i++)
+    tail[i >> 2] |= s.charCodeAt(i) << ((i % 4) << 3);
+  tail[i >> 2] |= 0x80 << ((i % 4) << 3);
+  if (i > 55) {
+    md5cycle(state, tail);
+    for (i = 0; i < 16; i++) tail[i] = 0;
+  }
+  tail[14] = n * 8;
+  md5cycle(state, tail);
+  return state;
+}
+
+/* there needs to be support for Unicode here,
+ * unless we pretend that we can redefine the MD-5
+ * algorithm for multi-byte characters (perhaps
+ * by adding every four 16-bit characters and
+ * shortening the sum to 32 bits). Otherwise
+ * I suggest performing MD-5 as if every character
+ * was two bytes--e.g., 0040 0025 = @%--but then
+ * how will an ordinary MD-5 sum be matched?
+ * There is no way to standardize text to something
+ * like UTF-8 before transformation; speed cost is
+ * utterly prohibitive. The JavaScript standard
+ * itself needs to look at this: it should start
+ * providing access to strings as preformed UTF-8
+ * 8-bit unsigned value arrays.
+ */
+function md5blk(s) { /* I figured global was faster.   */
+  var md5blks = [], i;
+  /* Andy King said do it this way. */
+  for (i = 0; i < 64; i += 4) {
+    md5blks[i >> 2] = s.charCodeAt(i)
+      + (s.charCodeAt(i + 1) << 8)
+      + (s.charCodeAt(i + 2) << 16)
+      + (s.charCodeAt(i + 3) << 24);
+  }
+  return md5blks;
+}
+
+var hex_chr = '0123456789abcdef'.split('');
+
+function rhex(n) {
+  var s = '', j = 0;
+  for (; j < 4; j++)
+    s += hex_chr[(n >> (j * 8 + 4)) & 0x0F]
+      + hex_chr[(n >> (j * 8)) & 0x0F];
+  return s;
+}
+
+function hex(x) {
+  for (var i = 0; i < x.length; i++)
+    x[i] = rhex(x[i]);
+  return x.join('');
+}
+
+var md5 = function (s) {
+  return hex(md51(s));
+}
+
+/* this function is much faster,
+ so if possible we use it. Some IEs
+ are the only ones I know of that
+ need the idiotic second function,
+ generated by an if clause.  */
+
+function add32(a, b) {
+  return (a + b) & 0xFFFFFFFF;
+}
+
+if (md5('hello') != '5d41402abc4b2a76b9719d911017c592') {
+  function add32(x, y) {
+    var lsw = (x & 0xFFFF) + (y & 0xFFFF),
+      msw = (x >> 16) + (y >> 16) + (lsw >> 16);
+    return (msw << 16) | (lsw & 0xFFFF);
+  }
+}
+
+module.exports = md5;
