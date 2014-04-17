@@ -46,8 +46,11 @@ exports.multiPost = (req, res)->
 	query = (url.parse req.url, true).query
 	if query.moreTag == 'true' then query.moreTag = true else query.moreTag = false
 
+	query.offset = parseInt(query.offset, 10)
+	query.limit = parseInt(query.limit, 10)
+
 	ret = post.getPropertiesByOrder(
-		[parseInt(query.offset, 10)...parseInt(query.offset + query.limit, 10)],
+		[query.offset...query.offset + query.limit],
 		query.get,
 		query.moreTag)
 	if ret is false
@@ -68,6 +71,7 @@ exports.getPostsByCategories = (req, res)->
 	query = (url.parse req.url, true).query
 	query.offset = parseInt(query.offset, 10)
 	query.limit = parseInt(query.limit, 10)
+
 	if query.moreTag == 'true' then query.moreTag = true else query.moreTag = false
 
 	if query.limit > config.maxPostPerRequest
@@ -90,8 +94,10 @@ exports.getPostsByCategories = (req, res)->
 #
 exports.getPostsBySingleTag = (req, res)->
 	query = (url.parse req.url, true).query
+
 	query.offset = parseInt(query.offset, 10)
 	query.limit = parseInt(query.limit, 10)
+
 	if query.moreTag == 'true' then query.moreTag = true else query.moreTag = false
 
 	result = post.getPropertiesByTag(

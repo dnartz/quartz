@@ -28,10 +28,10 @@
     </div>
     <ng-view>
         <script id="multipost.html" type="text/ng-template">
-            <div id="grid-wrapper">
+            <div id="grid-wrapper" infinite-scroll='LoadMore()'>
                 <div ng-repeat="post in posts" class="post-{{post.id}}  grid-item x1" id="post-{{post.id}}">
                     <h2 class="post-title">
-                        <a href="/{{post.id}}/{{post.title}}" rel="bookmark" ng-bind="post.title"></a>
+                        <a href="/{{post.id}}/{{post.title}}" title="{{post.title}}" rel="bookmark" ng-bind="post.title"></a>
                     </h2>
 
                     <div class="post-body" ng-bind-html="post.content"></div>
@@ -56,8 +56,7 @@
     <div id="footer-wrapper">
         <div id="footer" style="width: 1300px;">
             <p>
-                © <span id="footer-year"></span> <span ng-bind="meta.blogName"></span> | <span
-                    ng-bind="meta.blogDescription"></span>
+                © <span id="footer-year"></span> <a ng-bind="meta.blogName+' | '+meta.blogDescription" href="{{meta.homePage}}"></a>
                 <br>
                 Powered by <a>Quartz</a>
                 with "tanzaku" WordPress theme by <a href="http://www.tripleships.com/">TRIPLESHIPS.Inc</a>

@@ -42,7 +42,7 @@ angular.module('quartz.theme', ['quartz.config', 'ngRoute', 'infinite-scroll'])
 							type: 'Tag'
 							offset: 0
 							limit: maxPostsPerReq
-							get: ['id', 'tags', 'title', 'content', 'postDate']
+							get: ['id', 'tags', 'title', 'content', 'postDate', 'category']
 							moreTag: true
 						}
 					type: ->
@@ -65,52 +65,68 @@ angular.module('quartz.theme', ['quartz.config', 'ngRoute', 'infinite-scroll'])
 				templateUrl: '/public/themes/tanzaku/404.html'
 			}).otherwise({redirectTo: '/404'})
 	]).service('redrawGrid', ['$rootScope', ($rootScope)->
+		lastPostCount = 0
+		###*
+       重绘网格
+		###
+		setGrid = ->
+			$("#grid-wrapper").vgrid
+				easeing: "easeOutQuint"
+				time: 500
+				delay: 0
+				selRefGrid: "#grid-wrapper div.x1"
+				selFitWidth: [
+					"#container"
+					"#footer"
+				]
+				gridDefWidth: 290 + 15 + 15 + 5
+				forceAnim: true
 		->
+			# 对一些比含有较大的图片的文章，我们可以适当增大其宽度
+			postDivs = $('#grid-wrapper>div:not(:has(>.grid-image))>.post-body')
+			for postDiv in postDivs
+				# 如果找到合适的图片，那么就计算是否需要进行调整
+				#if $(postDiv).find('img').first().length>0
+
+			if $rootScope.posts?.length is lastPostCount then return null
+
 			isSinglePost = $rootScope.meta.isSinglePost
-			setGrid = ->
-				$("#grid-wrapper").vgrid
-					easeing: "easeOutQuint"
-					time: 800
-					delay: 60
-					selRefGrid: "#grid-wrapper div.x1"
-					selFitWidth: [
-						"#container"
-						"#footer"
-					]
-					gridDefWidth: 290 + 15 + 15 + 5
-					forceAnim: true
 
-			$('#grid-wrapper').css('display','none') if isSinglePost
+			$('#grid-wrapper').css('display', 'none') if isSinglePost
 
-			$(window).load (e) ->
-				setTimeout (->
-					# prevent flicker in grid area - see also style.css
-					$("#grid-wrapper").css "paddingTop", "0px"
-				), 1000
+			# prevent flicker in grid area - see also style.css
+			$("#grid-wrapper").css "paddingTop", "0px"
 
-			setTimeout setGrid, 300
+			setTimeout setGrid, 10
 
-			setTimeout (->
-				if isSinglePost
-					anim_msec = $("#single-wrapper").height()
-					anim_msec = 1000  if anim_msec < 1000
-					anim_msec = 3000  if anim_msec > 3000
-					$("#single-wrapper").css("paddingTop", "0px").hide().slideDown anim_msec
+			if isSinglePost
+				anim_msec = $("#single-wrapper").height()
+				anim_msec = 1000  if anim_msec < 1000
+				anim_msec = 3000  if anim_msec > 3000
+				$("#single-wrapper").css("paddingTop", "0px").hide().slideDown anim_msec
 
-				($("#header").hide().css("visibility", "visible").fadeIn 500) if $('#header').css('visibility') is 'hidden'
-			), 500
+			($("#header").hide().css("visibility", "visible").fadeIn 500) if $('#header').css('visibility') is 'hidden'
+
+			setTimeout(->
+				# 解锁LoadMore锁
+				$rootScope.LoadMoreLock = false
+			, 1500)
+
+			lastPostCount = $rootScope.posts.length
 	]).controller('MultiPostCtrl',
 	['$rootScope', 'Post', 'MultiPostLoader', 'redrawGrid', 'maxPostsPerReq', 'type',
 		($rootScope, Post, MultiPostLoader, redrawGrid, maxPostsPerReq, type)->
 			redrawGrid()
 			$rootScope.LoadMore = ->
-				MultiPostLoader {
-					type: type
-					offset: $rootScope.lastPostOrd
-					limit: maxPostsPerReq
-					get: ['id', 'tags', 'title', 'content', 'postDate']
-					moreTag: true
-				}
+				if $rootScope.LoadMoreLock isnt true
+					$rootScope.LoadMoreLock = true
+					MultiPostLoader({
+						type: type
+						offset: $rootScope.lastPostOrd
+						limit: maxPostsPerReq
+						get: ['id', 'tags', 'title', 'content', 'postDate']
+						moreTag: true
+					}).then redrawGrid
 				if ($rootScope.allPostsLoaded) then $rootScope.LoadMore = ->
 
 	]).controller('PostCtrl', ['redrawGrid', (redrawGrid)->

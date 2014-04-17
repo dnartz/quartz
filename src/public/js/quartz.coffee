@@ -69,6 +69,7 @@ quartzService.factory('Post', ['$resource', ($resource)->
 				if _.isUndefined ttyp then ttyp = 'HomePage'
 				titleFn ttyp
 
+				# 连接文章数组
 				if $rootScope.posts.length is 0
 					$rootScope.posts = posts
 				else
