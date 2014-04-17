@@ -47,6 +47,7 @@ quartzService.factory('Post', ['$resource', ($resource)->
 		prevTag = ''
 		prevCategory = ''
 		(args)->
+			console.log args
 			delay = $q.defer()
 
 			typ = ({Post : Post, Category : Category, Tag : Tag })[args.type]
@@ -54,10 +55,16 @@ quartzService.factory('Post', ['$resource', ($resource)->
 
 			# 判断是否为同一页面的请求
 			if prevType isnt args.type or prevTag isnt $route.current.params.tag or prevCategory isnt $route.current.params.category
+				# 如果不是，就清空文章数组
+
 				prevType = args.type
 				prevTag = $route.current.params.tag
 				prevCategory = $route.current.params.category
 				$rootScope.posts = []
+			else
+				if $rootScope.posts.length>args.offset
+					delay.resolve $rootScope.posts
+					return delay.promise
 
 			delete args.type
 

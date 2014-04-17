@@ -1,4 +1,33 @@
-<!DOCTYPE html><html ng-app="quartz"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><title ng-bind="meta.title">加载中……</title><meta name="description" content="{{meta.blogDescription}}"><meta name="HandheldFriendly" content="True"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="stylesheet" type="text/css" href="/public/themes/casper/css/screen.css"><link rel="stylesheet" href="/public/css/scrollBarBeautify.css" type="text/css" media="screen, print"><link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400"><link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"></head><body><ng-view><script id="multipost.html" type="text/ng-template"><header class="site-head" style="background-image: url({{cover[parseInt(Math.random()*cover.length)]}})">
+<!doctype html>
+<html ng-app="quartz">
+<head>
+    <!-- Document Settings -->
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+
+    <!-- Page Meta -->
+    <title ng-bind="meta.title">加载中……</title>
+    <meta name="description" content="{{meta.blogDescription}}"/>
+
+    <meta name="HandheldFriendly" content="True"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <!-- Styles'n'Scripts -->
+    <link rel="stylesheet" type="text/css" href="/public/themes/casper/css/screen.css"/>
+    <link rel="stylesheet" href="/public/css/scrollBarBeautify.css" type="text/css" media="screen, print"/>
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400"/>
+
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <!-- Ghost outputs important style and meta data with this tag
+    {{ghost_head}}
+    -->
+</head>
+<body>
+
+<ng-view>
+    <script id="multipost.html" type="text/ng-template">
+    <header class="site-head" style="background-image: url({{cover[parseInt(Math.random()*cover.length)]}})">
         <div class="vertical">
             <div class="site-head-content inner">
                 <a class="blog-logo" href="{{meta.homePage}}">
@@ -34,4 +63,31 @@
             </section>
         </article>
 
-    </main></script></ng-view><footer class="site-footer"><a class="subscribe icon-feed" href="{{meta.homePage}}/feed/"><span class="tooltip">订阅！</span></a><div class="inner"><section class="copyright">All content copyright <a href="{{meta.homePage}}/" ng-bind="meta.blogName"></a> &copy; {{Date.now() | date:'yyyy'}} &bull; All rights reserved.</section><section class="poweredby">Proudly published with <a>Quartz</a></section></div></footer><script src="/public/js/jQuery-2.1.0.js"></script><script src="/public/js/underscore.js"></script><script src="/public/js/angular.js"></script><script src="/public/js/angular-route.js"></script><script src="/public/js/angular-resource.js"></script><script src="/public/js/angular-sanitize.js"></script><script src="/public/js/ng-infinite-scroll.js"></script><script src="/public/themes/casper/js/jquery.fitvids.js"></script><script src="/public/themes/casper/js/index.js"></script><script src="/public/js/quartz.js"></script><script src="/public/themes/casper/casper.js"></script></body></html>
+    </main>
+</script>
+</ng-view>
+
+<footer class="site-footer">
+    <a class="subscribe icon-feed" href="{{meta.homePage}}/feed/"><span class="tooltip">订阅！</span></a>
+
+    <div class="inner">
+        <section class="copyright">All content copyright <a href="{{meta.homePage}}/" ng-bind="meta.blogName"></a> &copy;
+            {{Date.now() | date:'yyyy'}} &bull; All rights reserved.
+        </section>
+        <section class="poweredby">Proudly published with <a>Quartz</a></section>
+    </div>
+</footer>
+
+<script src="/public/js/jQuery-2.1.0.js"></script>
+<script src="/public/js/underscore.js"></script>
+<script src="/public/js/angular.js"></script>
+<script src="/public/js/angular-route.js"></script>
+<script src="/public/js/angular-resource.js"></script>
+<script src="/public/js/angular-sanitize.js"></script>
+<script src="/public/js/ng-infinite-scroll.js"></script>
+<script src="/public/themes/casper/js/jquery.fitvids.js"></script>
+<script src="/public/themes/casper/js/index.js"></script>
+<script src="/public/js/quartz.js"></script>
+<script src="/public/themes/casper/casper.js"></script>
+</body>
+</html>

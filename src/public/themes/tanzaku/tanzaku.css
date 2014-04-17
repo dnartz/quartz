@@ -151,28 +151,6 @@ noscript .caution {
     margin: 0;
 }
 
-.wp-caption {
-    width: 100%;
-    border: 1px solid #e3e3e3;
-    border-radius: 4px;
-    -moz-border-radius: 4px;
-    -khtml-border-radius: 4px;
-    -webkit-border-radius: 4px;
-    background-color: #ffffff;
-    text-align: center;
-}
-
-.wp-caption img {
-    padding-top: 5px;
-}
-
-.wp-caption-text {
-    margin: 5px 0;
-    text-align: center;
-    font-size: smaller;
-    color: #666666;
-}
-
 code strong {
     color: #cc3366;
     font-weight: normal;
@@ -220,6 +198,10 @@ code strong {
     margin: 0;
     padding: 0;
     padding-top: 1000px; /* for single-page effect */
+}
+
+#single-wrapper .post-body img {
+    max-height: none;
 }
 
 #bottom-container {

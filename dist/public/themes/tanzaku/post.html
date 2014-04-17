@@ -1,1 +1,72 @@
-<div id="grid-wrapper"></div><div id="single-wrapper"><div class="post-{{post.id}} post single-item" id="post-{{post.id}}"><h2 class="post-title" ng-bind="post.title"></h2><div class="post-body" ng-bind-html="post.content"></div><p class="post-meta">发表于 <span ng-bind="post.postDate | date:'yyyy年M月d日 H:mm'"></span><br>分类： <a href="/category/{{post.category}}" title="查看{{post.category}}中的全部文章" rel="category tag" ng-bind="post.category"></a><br>标签： <a href="/tag/{{tag}}" rel="tag" ng-bind="tag" ng-repeat-start="tag in post.tags"></a><span ng-if="!$last" ng-repeat-end="">,</span></p></div><div class="single-item"><h2 class="comment-title" id="comments"><a href="#respond" title="留下评论" ng-bind="((post.commentCount<1)?'没有评论':post.commentCount+'条评论')+'&raquo;'"></a></h2><div ng-if="post.commentCount>0" ng-repeat="comment in post.comments" class="comment-list"></div></div><div class="single-item" id="respond"><h2 class="comment-title">发表评论</h2><div class="comment-form"><form method="post" id="commentform"><p><input type="text" name="author" id="author" value="tete" size="22" tabindex="1" aria-required="true"><label for="author"><small>姓名 (必填)</small></label></p><p><input type="text" name="email" id="email" value="xylon.tao@gmail.com" size="22" tabindex="2" aria-required="true"><label for="email"><small>电子邮件（不会被公开） (必填)</small></label></p><p><input type="text" name="url" id="url" value="" size="22" tabindex="3"><label for="url"><small>站点</small></label></p><p><textarea name="comment" id="comment" rows="10" tabindex="4"></textarea></p><p><input name="submit" type="submit" id="submit" tabindex="5" value="发表评论"><input type="hidden" name="comment_post_ID" value="{{post.id}}" id="comment_post_ID"><input type="hidden" name="comment_parent" id="comment_parent" value="0"></p></form></div></div></div>
+<div id="grid-wrapper"></div>
+<div id="single-wrapper">
+
+    <div class="post-{{post.id}} post single-item" id="post-{{post.id}}">
+        <h2 class="post-title" ng-bind="post.title"></h2>
+
+        <div class="post-body" ng-bind-html="post.content"></div>
+
+        <p class="post-meta">
+            发表于 <span ng-bind="post.postDate | date:'yyyy年M月d日 H:mm'"></span><br>
+            分类： <a href="/category/{{post.category}}" title="查看{{post.category}}中的全部文章" rel="category tag"
+                   ng-bind="post.category"></a>
+            <br>
+            标签：
+            <a href="/tag/{{tag}}" rel="tag" ng-bind="tag" ng-repeat-start="tag in post.tags"></a><span
+                ng-if="!$last" ng-repeat-end>, </span>
+        </p>
+    </div>
+
+
+    <div class="single-item">
+        <h2 class="comment-title" id="comments">
+            <a href="#respond" title="留下评论" ng-bind="((post.commentCount<1)?'没有评论':post.commentCount+'条评论')+'&raquo;'"></a>
+        </h2>
+
+        <div ng-if="post.commentCount>0" ng-repeat="comment in post.comments" class="comment-list">
+
+        </div>
+    </div>
+
+    <div class="single-item" id="respond">
+        <h2 class="comment-title">发表评论</h2>
+
+<!--        <div id="cancel-comment-reply">
+            <a rel="nofollow" id="cancel-comment-reply-link"
+               href="/wordpress/311/%e8%80%83%e8%af%95%ef%bc%8c%e7%bb%93%e6%9d%9f#respond" style="display:none;">点击这里取消回复。</a>
+        </div>-->
+
+        <div class="comment-form">
+
+
+            <form method="post" id="commentform">
+
+                <p><input type="text" name="author" id="author" value="tete" size="22" tabindex="1"
+                          aria-required='true'/>
+                    <label for="author">
+                        <small>姓名 (必填)</small>
+                    </label></p>
+
+                <p><input type="text" name="email" id="email" value="xylon.tao@gmail.com" size="22" tabindex="2"
+                          aria-required='true'/>
+                    <label for="email">
+                        <small>电子邮件（不会被公开） (必填)</small>
+                    </label></p>
+
+                <p><input type="text" name="url" id="url" value="" size="22" tabindex="3"/>
+                    <label for="url">
+                        <small>站点</small>
+                    </label></p>
+
+                <p><textarea name="comment" id="comment" rows="10" tabindex="4"></textarea></p>
+
+                <p><input name="submit" type="submit" id="submit" tabindex="5" value="发表评论"/>
+                    <input type='hidden' name='comment_post_ID' value='{{post.id}}' id='comment_post_ID'/>
+                    <input type='hidden' name='comment_parent' id='comment_parent' value='0'/>
+                </p>
+            </form>
+
+        </div>
+    </div>
+
+</div>

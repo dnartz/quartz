@@ -1,1 +1,20 @@
-<div id="content"><div id="post-{{post.id}}" class="post"><h2><b ng-bind="post.title"></b></h2><div class="post-info"><span class="post-date" ng-bind="post.postDate | date:'MMM d,yyyy H:mm'"></span><br><span class="tags-list">标签： <span ng-repeat="tag in post.tags"><a class="tag" href="/tag/{{tag}}" ng-bind="tag"></a> <span ng-bind="$last?'':', '"></span></span></span></div><div class="entry" ng-bind-html="post.content"></div></div></div>
+<div id="content">
+    <div id="post-{{post.id}}" class="post">
+        <h2>
+            <b ng-bind="post.title"></b>
+        </h2>
+
+        <div class="post-info">
+            <span class="post-date" ng-bind="post.postDate | date:'MMM d,yyyy H:mm'"></span>
+            <br>
+            <span class="tags-list">标签：
+                <span ng-repeat="tag in post.tags">
+                    <a class="tag" href="/tag/{{tag}}" ng-bind="tag"></a>
+                    <span ng-bind="$last?'':', '"></span>
+                </span>
+            </span>
+        </div>
+
+        <div class="entry" ng-bind-html="post.content"></div>
+    </div>
+</div>

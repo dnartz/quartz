@@ -1,1 +1,40 @@
-<div id="content"><div class="entry"><form><h2><b>搜索：</b><input placeholder="按回车键直接进行搜索" id="search" type="text" focus=""></h2></form><h2><b>分类</b></h2><span ng-repeat="category in categories"><a href="{{meta.siteUrl}}category/{{category.name}}" ng-bind="category.name"></a> <span ng-bind="$last?'':'&nbsp;:&nbsp;'"></span></span><br><h2><b>所有文章</b></h2><table id="arc"><tbody><tr ng-repeat-start="post in tposts" class="year" ng-if="post.year"><br><th ng-bind="post.postDate.getFullYear()"></th></tr><tr ng-if="post.month"><th ng-bind="post.month"></th><td></td></tr><tr ng-repeat-end=""><th ng-bind="post.postDate.getDate()"></th><td id="p-{{post.id}}"><a href="{{meta.HomePage}}{{post.id}}/{{post.title}}" ng-bind="post.title"></a></td></tr></tbody></table></div></div>
+<div id="content">
+    <div class="entry">
+        <form>
+            <h2>
+                <b>搜索：</b>
+                <input placeholder="按回车键直接进行搜索" id="search" type="text" focus> 
+            </h2>
+        </form>
+
+
+        <h2><b>分类</b></h2>
+        <span ng-repeat="category in categories">
+            <a href="{{meta.siteUrl}}category/{{category.name}}" ng-bind="category.name"></a>
+            <span ng-bind="$last?'':'&nbsp;:&nbsp;'"></span>
+        </span>
+
+        <br>
+
+        <h2><b>所有文章</b></h2>
+        <table id="arc">
+            <tbody>
+                <tr ng-repeat-start="post in tposts" class="year" ng-if="post.year">
+                    <br>
+                    <th ng-bind="post.postDate.getFullYear()"></th>
+                </tr>
+                <tr ng-if="post.month">
+                    <th ng-bind="post.month"></th>
+                    <td></td>
+                </tr>
+                <tr ng-repeat-end>
+                    <th ng-bind="post.postDate.getDate()"></th>
+                    <td id="p-{{post.id}}">
+                        <a href="{{meta.HomePage}}{{post.id}}/{{post.title}}" ng-bind="post.title"></a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+

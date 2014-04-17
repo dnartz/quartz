@@ -55,15 +55,7 @@ angular.module('quartz.theme', ['quartz.config', 'ngRoute', 'infinite-scroll'])
 					post : (PostLoader)->
 						PostLoader()
 				templateUrl : '/public/themes/tanzaku/post.html'
-
-			# 404页面
-			}).when(routeUrls['404'], {
-				resolve :
-					t : (NotFoundLoader)->
-						NotFoundLoader()
-				controller : 'NotFoundCtrl'
-				templateUrl : '/public/themes/tanzaku/404.html'
-			}).otherwise({redirectTo : '/404'})
+			}).otherwise({redirectTo : '/'})
 	]).service('redrawGrid', ['$rootScope', ($rootScope)->
 		lastPostCount = 0
 		###*
@@ -88,27 +80,30 @@ angular.module('quartz.theme', ['quartz.config', 'ngRoute', 'infinite-scroll'])
 
 		# 各大小宽度数组
 		arrWidth = (((COL_WIDTH * (x + 1)) + (COL_GAP_WIDTH * x)) for x in [0..MAX_COL_SIZE])
-		->
-			postDivs = $ '#grid-wrapper>div:not(:has(>.grid-image))'
-			for postDiv, index in postDivs
-				# 如果找到合适的图片，那么就计算是否需要进行调整
-				img = $(postDiv).find('img').first()[0];
-				if img?
-					width = img.clientWidth
-					height = img.clientHeight
-
-					for i in [0..MAX_COL_SIZE]
-						if (i >= MAX_COL_SIZE - 1) or (width < arrWidth[i + 1])
-							newWidth = arrWidth[i]
-							colClass = 'x' + (i + 1)
-							break
-					newHeight = parseInt(newWidth * (height / width), 10)
-					$('#' + $(postDiv).attr('id') + '>.post-title').after("<div class=\"grid-image\"><a href=\"/{{post.id}}/{{post.title}}\" title=\"{{post.title}}\"><img src=\"#{$(img).attr('src')}\"></a>");
-					$(img).remove()
-
-			if $rootScope.posts?.length is lastPostCount then return null
-
+		(isRouteChange = false)->
 			isSinglePost = $rootScope.meta.isSinglePost
+
+			# 如果不是单文章页面，也不是路由更变，并且所有文章已经加载完成，那么就不用重绘
+			if isSinglePost isnt true and isRouteChange isnt true and $rootScope.posts?.length is lastPostCount
+				return null
+
+			# 如果找到合适的图片，那么就计算是否需要进行调整
+			if isSinglePost isnt true
+				postDivs = $ '#grid-wrapper>div:not(:has(>.grid-image))'
+				for postDiv in postDivs
+					img = $(postDiv).find('img').first()[0];
+					if img?
+						width = img.clientWidth
+						height = img.clientHeight
+
+						for i in [0..MAX_COL_SIZE]
+							if (i >= MAX_COL_SIZE - 1) or (width < arrWidth[i + 1])
+								newWidth = arrWidth[i]
+								colClass = 'x' + (i + 1)
+								break
+						newHeight = parseInt(newWidth * (height / width), 10)
+						$('#' + $(postDiv).attr('id') + '>.post-title').after("<div class=\"grid-image\"><a href=\"" + $('#' + $(postDiv).attr('id') + '>.post-title>a').attr('href') + "\" title=\"#{$('#' + $(postDiv).attr('id') + '>.post-title').text()}\"><img src=\"#{$(img).attr('src')}\"></a>")
+						$(img).remove()
 
 			$('#grid-wrapper').css('display', 'none') if isSinglePost
 
@@ -130,11 +125,13 @@ angular.module('quartz.theme', ['quartz.config', 'ngRoute', 'infinite-scroll'])
 				$rootScope.LoadMoreLock = false
 			, 1500)
 
-			lastPostCount = $rootScope.posts.length
+			if isSinglePost isnt true then lastPostCount = $rootScope.posts.length
 	]).controller('MultiPostCtrl',
 	['$rootScope', 'Post', 'MultiPostLoader', 'redrawGrid', 'maxPostsPerReq', 'type',
 		($rootScope, Post, MultiPostLoader, redrawGrid, maxPostsPerReq, type)->
-			redrawGrid()
+			setTimeout(->
+				redrawGrid(true)
+			, 50)
 			$rootScope.LoadMore = ->
 				if $rootScope.LoadMoreLock isnt true
 					$rootScope.LoadMoreLock = true
@@ -148,6 +145,5 @@ angular.module('quartz.theme', ['quartz.config', 'ngRoute', 'infinite-scroll'])
 				if ($rootScope.allPostsLoaded) then $rootScope.LoadMore = ->
 
 	]).controller('PostCtrl', ['redrawGrid', (redrawGrid)->
-		redrawGrid()
-	]).controller('NotFoundCtrl', [->
+		redrawGrid(true)
 	])
