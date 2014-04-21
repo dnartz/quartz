@@ -23,7 +23,7 @@ rd.eachSync(__dirname + '/../data/posts', function(f) {
 
 for (_i = 0, _len = JSONList.length; _i < _len; _i++) {
   filename = JSONList[_i];
-  posts.push(JSON.parse(fs.readFileSync(filename, null)));
+  posts.push(JSON.parse(fs.readFileSync(filename)));
   _.last(posts).id = parseInt(_.last(posts).id, 10);
   postsIdIndex[_.last(posts).id] = _.last(posts);
 }

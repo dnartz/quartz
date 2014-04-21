@@ -1,12 +1,13 @@
 url = require 'url'
 
 post = require './models/post'
+comment = require './models/comment'
 getCategory = require './models/archive'
 meta = JSON.stringify require './dao/meta'
 
 config = require './data/config/config'
 
-currentTheme = 'tanzaku'
+currentTheme = 'mylist'
 setInterval(->
 	currentTheme = config.themesList[parseInt(Math.random() * (config.themesList.length - 1))]
 , 3600000)
@@ -112,6 +113,16 @@ exports.getPostsBySingleTag = (req, res)->
 		res.send([])
 	else
 		res.send JSON.stringify result
+
+#
+# * GET comment by Id
+#
+exports.getCommentById = (req, res)->
+	ret = comment.getCommentById req.param('id')
+	if ret is false
+		res.status(404).send()
+	else
+		res.send JSON.stringify(ret)
 
 #
 # * 获取favicon

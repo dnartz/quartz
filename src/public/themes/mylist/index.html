@@ -8,7 +8,7 @@
 
     <title ng-bind="meta.title">加载中……</title>
 
-    <link rel="stylesheet" href="/public/themes/mylist/style.css" type="text/css" media="screen, print"/>
+    <link rel="stylesheet" href="/public/themes/mylist/mylist.css" type="text/css" media="screen, print"/>
     <link rel="stylesheet" href="/public/css/scrollBarBeautify.css" type="text/css" media="screen, print"/>
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 
@@ -23,9 +23,8 @@
 
 <div id="footer">
     <div id="bottom-menu">
-        <div id="bottom-menu-img" class="bottom-animate">
-        </div>
-        <div id="bottom-menu-content" style="">
+        <div id="bottom-menu-img"></div>
+        <div id="bottom-menu-content" style="opacity: 0">
             <a title="RSS订阅源" href="{{meta.rss}}">Feed</a>
             : :<a title="关于我" href="{{meta.aboutMe}}">我</a>
             : :<a title="所有文章" href="{{meta.homePage}}archive">文</a>

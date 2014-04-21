@@ -80,6 +80,10 @@ a:link {
     text-decoration: none;
 }
 
+a:hover {
+    color: #CCC;
+}
+
 a:visited {
     color: #333;
     text-decoration: none;
@@ -275,7 +279,6 @@ li {
 }
 
 #bottom-menu-content {
-    visibility: hidden;
     position: fixed;
     bottom: 63px;
     right: 111px;
@@ -316,4 +319,62 @@ li {
     outline: 0;
     -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
+}
+
+/*
+ * 文章评论部分
+ */
+
+#comments {
+    border-top: 1px solid #e2e2e2;
+}
+
+.comment-unit {
+    border-bottom: 1px solid #e2e2e2;
+    margin-top: 10px;
+    min-height: 55px;
+}
+
+.comment-avatar {
+    float: left;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.comment-info {
+    line-height: 1;
+    font-size: 14px;
+}
+
+.comment-username {
+    font-weight: bold;
+}
+
+.comment-time, .comment-floor-num {
+    color: #c0c0c0;
+}
+
+.comment-floor-num {
+    float: right;
+}
+
+.comment-content {
+    margin-left: 55px;
+}
+
+/*
+ * 评论表单
+ */
+
+#comment-form > input {
+    width: 30%;
+}
+
+#comment-form >*{
+    border-radius: 5px;
+}
+
+#comment-content {
+    resize: none;
+    width: 92%;
 }

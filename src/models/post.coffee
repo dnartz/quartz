@@ -1,6 +1,5 @@
 {posts} = require __dirname + '/../dao/post'
-postIds = posts.map (a)->
-	parseInt a.id, 10
+postIds = posts.map (a)-> parseInt a.id, 10
 {postsIdIndex} = require __dirname + '/../dao/post'
 {tagsIndex} = require __dirname + '/../dao/post'
 tagsList = require(__dirname + '/../dao/post').tags
@@ -51,23 +50,13 @@ propertiesCheck = (properties)->
 	if _.isArray(properties) isnt true then properties = [properties]
 	if _.intersection(properties, postFileds).length is 0 then return false else return properties
 
-
-###*
-  * 检查文章id数组的合法性
-  * @param {number|number[]} ids 要检查的文章id数组
-  * @return {number[]|boolean} 如果检查无误，则返回一个文章id的数组，否则返回false
-###
-idsCheck = (ids)->
-	if ids is false then return false
-	if _.isArray(ids) isnt true then ids = [ids]
-	ids = ids.map (a)->
-		parseInt a, 10 # 将所有元素都转换成number型
+{idsCheck} = require __dirname + '/../utility/misc'
 
 ###*
   * 检查文章Id的和要查询的属性数组的合法性
   * @param {fcuntion} 要操作的函数
 ###
-idsAndPropretiesCheck = (fn)->
+idsAndPropertiesCheck = (fn)->
 	return (args...)->
 		# 检查文章id数组的合法性
 		if (ids = idsCheck args[0]) is false then return false
@@ -105,7 +94,7 @@ module.exports =
 		* @param {boolean} [moreTag] 是否只获取More Tag之前的内容，默认为false
 		* @return {array} 返回带有所求属性的数组
 	###
-	getPropertiesById: idsAndPropretiesCheck (ids, properties, moreTag = false)->
+	getPropertiesById: idsAndPropertiesCheck (ids, properties, moreTag = false)->
 		isEmptyArray ids.map (id)->
 			fetchPropertiesById id, properties, moreTag
 

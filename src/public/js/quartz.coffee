@@ -47,7 +47,6 @@ quartzService.factory('Post', ['$resource', ($resource)->
 		prevTag = ''
 		prevCategory = ''
 		(args)->
-			console.log args
 			delay = $q.defer()
 
 			typ = ({Post : Post, Category : Category, Tag : Tag })[args.type]

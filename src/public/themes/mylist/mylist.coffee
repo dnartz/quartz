@@ -3,85 +3,85 @@ angular.module('quartz.theme', ['quartz.config', 'ngRoute', 'infinite-scroll'])
 		($routeProvider, routeUrls, maxPostsPerReq)->
 			# 主页
 			$routeProvider.when(routeUrls.HomePage, {
-				controller: 'MultiPostCtrl'
-				resolve:
-					posts: (MultiPostLoader)->
+				controller : 'MultiPostCtrl'
+				resolve :
+					posts : (MultiPostLoader)->
 						MultiPostLoader {
-							type: 'Post'
-							offset: 0
-							limit: maxPostsPerReq
-							get: ['id', 'tags', 'title', 'content', 'postDate']
-							moreTag: true
+							type : 'Post'
+							offset : 0
+							limit : maxPostsPerReq
+							get : ['id', 'tags', 'title', 'content', 'postDate']
+							moreTag : true
 						}
-					type: ->
+					type : ->
 						'Post'
-				templateUrl: 'multipost.html'
+				templateUrl : 'multipost.html'
 
 			# 分类
 			}).when(routeUrls.Category, {
-				controller: 'MultiPostCtrl'
-				resolve:
-					posts: (MultiPostLoader)->
+				controller : 'MultiPostCtrl'
+				resolve :
+					posts : (MultiPostLoader)->
 						MultiPostLoader {
-							type: 'Category'
-							offset: 0
-							limit: maxPostsPerReq
-							get: ['id', 'tags', 'title', 'content', 'postDate']
-							moreTag: true
+							type : 'Category'
+							offset : 0
+							limit : maxPostsPerReq
+							get : ['id', 'tags', 'title', 'content', 'postDate']
+							moreTag : true
 						}
-					type: ->
+					type : ->
 						'Category'
-				templateUrl: 'multipost.html'
+				templateUrl : 'multipost.html'
 
 			# 标签
 			}).when(routeUrls.Tag, {
-				controller: 'MultiPostCtrl'
-				resolve:
-					posts: (MultiPostLoader)->
+				controller : 'MultiPostCtrl'
+				resolve :
+					posts : (MultiPostLoader)->
 						MultiPostLoader {
-							type: 'Tag'
-							offset: 0
-							limit: maxPostsPerReq
-							get: ['id', 'tags', 'title', 'content', 'postDate']
-							moreTag: true
+							type : 'Tag'
+							offset : 0
+							limit : maxPostsPerReq
+							get : ['id', 'tags', 'title', 'content', 'postDate']
+							moreTag : true
 						}
-					type: ->
+					type : ->
 						'Tag'
-				templateUrl: 'multipost.html'
+				templateUrl : 'multipost.html'
 			# 单篇文章
 			}).when(routeUrls.Single, {
-				controller: 'PostCtrl'
-				resolve:
-					post: (PostLoader)->
+				controller : 'PostCtrl'
+				resolve :
+					post : (PostLoader)->
 						PostLoader()
-				templateUrl: '/public/themes/mylist/post.html'
+				templateUrl : '/public/themes/mylist/post.html'
 
 			# 文章存档
 			}).when(routeUrls.Archive, {
-				controller: 'ArchiveCtrl'
-				resolve:
-					archive: (ArchiveLoader)->
+				controller : 'ArchiveCtrl'
+				resolve :
+					archive : (ArchiveLoader)->
 						ArchiveLoader ['id', 'title', 'postDate'], true
-				templateUrl: '/public/themes/mylist/archive.html'
+				templateUrl : '/public/themes/mylist/archive.html'
 
 			# 404页面
 			}).when(routeUrls['404'], {
-				resolve:
-					t: (NotFoundLoader)->
+				resolve :
+					t : (NotFoundLoader)->
 						NotFoundLoader()
-				controller: 'NotFoundCtrl'
-				templateUrl: '/public/themes/mylist/404.html'
-			}).otherwise({redirectTo: '/404'})
+				controller : 'NotFoundCtrl'
+				templateUrl : '/public/themes/mylist/404.html'
+			}).otherwise({redirectTo : '/404'})
 	]).controller('MultiPostCtrl',
 	['$rootScope', 'Post', 'MultiPostLoader', 'maxPostsPerReq', 'type',
 		($rootScope, Post, MultiPostLoader, maxPostsPerReq, type)->
 			$rootScope.LoadMore = ->
 				MultiPostLoader {
-					type: type
-					offset: $rootScope.lastPostOrd
-					limit: maxPostsPerReq
-					get: ['id', 'tags', 'title', 'content', 'postDate']
-					moreTag: true
+					type : type
+					offset : $rootScope.lastPostOrd
+					limit : maxPostsPerReq
+					get : ['id', 'tags', 'title', 'content', 'postDate']
+					moreTag : true
 				}
 				if ($rootScope.allPostsLoaded) then $rootScope.LoadMore = ->
 	]).controller('PostCtrl', [->
@@ -109,3 +109,18 @@ angular.module('quartz.theme', ['quartz.config', 'ngRoute', 'infinite-scroll'])
 
 		$scope.curMonth = 0
 	])
+
+$("#bottom-menu").hover (->
+	$("#bottom-menu-img").animate
+		width : parseInt($('#bottom-menu-content').css('width').replace(/[^-\d\.]/g, ''), 10) + 25
+	, 500
+	$("#bottom-menu-content").stop(1, 1).delay(500).animate
+		opacity : 1
+	, 500
+), ->
+	$("#bottom-menu-content").stop(1, 1).animate
+		opacity : 0
+	, 500
+	$("#bottom-menu-img").delay(500).animate
+		width : 36
+	, 500

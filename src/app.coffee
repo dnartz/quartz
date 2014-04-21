@@ -34,6 +34,9 @@ app.get '/api/tag/:tag', routes.getPostsBySingleTag
 # 按照文章分类获取文章
 app.get '/api/category/:category', routes.getPostsByCategories
 
+# 按照评论ID获取评论
+app.get '/api/comment/:id',routes.getCommentById
+
 # 获取文章存档
 app.get '/api/archive', routes.archive
 

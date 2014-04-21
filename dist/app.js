@@ -43,6 +43,8 @@ app.get('/api/tag/:tag', routes.getPostsBySingleTag);
 
 app.get('/api/category/:category', routes.getPostsByCategories);
 
+app.get('/api/comment/:id', routes.getCommentById);
+
 app.get('/api/archive', routes.archive);
 
 app.get('/favicon.ico*', routes.getFavicon);

@@ -15,7 +15,7 @@ rd.eachSync __dirname + '/../data/posts', (f)->
 	if '.json' is path.extname f then JSONList.push f
 
 for filename in JSONList
-	posts.push JSON.parse fs.readFileSync filename, null
+	posts.push JSON.parse fs.readFileSync filename
 
 	# 将文章id转化为number
 	_.last(posts).id = parseInt _.last(posts).id, 10
