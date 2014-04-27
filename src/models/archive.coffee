@@ -1,5 +1,5 @@
 {_} = require 'underscore'
-{postFileds} = require __dirname + '/../data/config/config'
+{postFields} = require __dirname + '/../data/config/config'
 
 {cutContent} = require __dirname + '/../utility/post'
 
@@ -22,11 +22,11 @@ for post in posts
 
 ###*
   * 获取文章分类，以及各分类包含的文章的属性
-  * @param {string[]} fileds 要获取的文章的属性数组
+  * @param {string[]} Fields 要获取的文章的属性数组
   * @param {boolean} [moreTag] 是否不获取moreTag之后的内容
 ###
-module.exports = (fileds, moreTag = false)->
-	fileds = _.intersection fileds, postFileds
+module.exports = (Fields, moreTag = false)->
+	Fields = _.intersection Fields, postFields
 
 	ret = {}
 	for category in categories
@@ -35,7 +35,7 @@ module.exports = (fileds, moreTag = false)->
 		ret[category.name].posts = []
 		for post in category.posts
 			ret[category.name].posts.push {}
-			for filed in fileds
+			for filed in Fields
 				if filed is 'content'
 					_.last(ret[category.name].posts)[filed] = cutContent post[filed], moreTag
 				else

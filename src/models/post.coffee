@@ -4,7 +4,7 @@ postIds = posts.map (a)-> parseInt a.id, 10
 {tagsIndex} = require __dirname + '/../dao/post'
 tagsList = require(__dirname + '/../dao/post').tags
 
-{postFileds} = require __dirname + '/../data/config/config'
+{postFields} = require __dirname + '/../data/config/config'
 
 categories = require __dirname + '/../dao/category'
 
@@ -48,7 +48,7 @@ arrayIndex2PostId = (arr)->
 ###
 propertiesCheck = (properties)->
 	if _.isArray(properties) isnt true then properties = [properties]
-	if _.intersection(properties, postFileds).length is 0 then return false else return properties
+	if _.intersection(properties, postFields).length is 0 then return false else return properties
 
 {idsCheck} = require __dirname + '/../utility/misc'
 

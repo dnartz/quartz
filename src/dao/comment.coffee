@@ -4,11 +4,11 @@ path = require 'path'
 
 {_}=require 'underscore'
 
-# 评论数组（按评论id排序）
-comments = []
+# 评论对象（按评论id排序）
+comments = {}
 
 # 文章评论对象（按文章id排序）
-postComments = []
+postComments = {}
 
 # JSON文件名列表
 JSONList = []
@@ -19,10 +19,14 @@ rd.eachSync __dirname + '/../data/comments', (f)->
 for filename in JSONList
 	unit = JSON.parse fs.readFileSync filename
 	comments[unit.id] = unit
-	if _.isArray postComments[unit.postID]
-		postComments[unit.postID].push unit
+	if _.isArray postComments[unit.postId]
+		postComments[unit.postId].push unit
 	else
-		postComments[unit.postID] = [unit]
+		postComments[unit.postId] = [unit]
+
+# 对于按文章id分类的评论索引，以按日期从早到晚的方式排序
+for postId of postComments
+	postComments[postId].sort (a,b)-> b.commentDate - a.commentDate
 
 exports.comments = comments
 exports.postComments = postComments

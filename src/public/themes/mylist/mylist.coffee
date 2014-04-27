@@ -54,6 +54,9 @@ angular.module('quartz.theme', ['quartz.config', 'ngRoute', 'infinite-scroll'])
 				resolve :
 					post : (PostLoader)->
 						PostLoader()
+					comments : (CommentLoader)->
+						CommentLoader({
+						})
 				templateUrl : '/public/themes/mylist/post.html'
 
 			# 文章存档

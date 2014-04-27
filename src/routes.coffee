@@ -1,4 +1,7 @@
+# @todo: 使用高阶函数进行一次抽象
+
 url = require 'url'
+{_} = require 'underscore'
 
 post = require './models/post'
 comment = require './models/comment'
@@ -8,6 +11,7 @@ meta = JSON.stringify require './dao/meta'
 config = require './data/config/config'
 
 currentTheme = 'mylist'
+# 每隔一段时间随机切换主题
 setInterval(->
 	currentTheme = config.themesList[parseInt(Math.random() * (config.themesList.length - 1))]
 , 3600000)
@@ -47,13 +51,13 @@ exports.multiPost = (req, res)->
 	query = (url.parse req.url, true).query
 	if query.moreTag == 'true' then query.moreTag = true else query.moreTag = false
 
-	query.offset = parseInt(query.offset, 10)
-	query.limit = parseInt(query.limit, 10)
+	if _.isUndefined query.offset then query.offset = null else query.offset = parseInt query.offset, 10
+	if _.isUndefined query.limit then query.limit = null else query.limit = parseInt query.limit, 10
 
 	ret = post.getPropertiesByOrder(
-		[query.offset...query.offset + query.limit],
-		query.get,
-		query.moreTag)
+																	 [query.offset...query.offset + query.limit],
+																	 query.get,
+																	 query.moreTag)
 	if ret is false
 		res.send([])
 	else
@@ -70,8 +74,8 @@ exports.archive = (req, res)->
 #
 exports.getPostsByCategories = (req, res)->
 	query = (url.parse req.url, true).query
-	query.offset = parseInt(query.offset, 10)
-	query.limit = parseInt(query.limit, 10)
+	if _.isUndefined query.offset then query.offset = null else query.offset = parseInt query.offset, 10
+	if _.isUndefined query.limit then query.limit = null else query.limit = parseInt query.limit, 10
 
 	if query.moreTag == 'true' then query.moreTag = true else query.moreTag = false
 
@@ -79,11 +83,11 @@ exports.getPostsByCategories = (req, res)->
 		res.status(404).send()
 	else
 		result = post.getPropertiesByCategory(
-			req.param('category'),
-			query.get,
-			query.offset,
-			query.limit,
-			query.moreTag)
+																					 req.param('category'),
+																					 query.get,
+																					 query.offset,
+																					 query.limit,
+																					 query.moreTag)
 
 		if result is false
 			res.send([])
@@ -96,18 +100,18 @@ exports.getPostsByCategories = (req, res)->
 exports.getPostsBySingleTag = (req, res)->
 	query = (url.parse req.url, true).query
 
-	query.offset = parseInt(query.offset, 10)
-	query.limit = parseInt(query.limit, 10)
+	if _.isUndefined query.offset then query.offset = null else query.offset = parseInt query.offset, 10
+	if _.isUndefined query.limit then query.limit = null else query.limit = parseInt query.limit, 10
 
 	if query.moreTag == 'true' then query.moreTag = true else query.moreTag = false
 
 	result = post.getPropertiesByTag(
-		req.param('tag'),
-		query.get,
-		query.offset,
-		query.limit,
-		query.moreTag
-	)
+																		req.param('tag'),
+																		query.get,
+																		query.offset,
+																		query.limit,
+																		query.moreTag
+																	)
 
 	if result is false
 		res.send([])
@@ -123,6 +127,20 @@ exports.getCommentById = (req, res)->
 		res.status(404).send()
 	else
 		res.send JSON.stringify(ret)
+
+#
+# * GET comments by post id
+#
+exports.getCommentsByPostId = (req, res)->
+	query = (url.parse req.url, true).query
+	if _.isUndefined query.offset then query.offset = null else query.offset = parseInt query.offset, 10
+	if _.isUndefined query.limit then query.limit = null else query.limit = parseInt query.limit, 10
+
+	ret = comment.getCommentsByPostId req.param('id'), query.get, query.offset, query.limit
+	if ret is false
+		res.status(404).send()
+	else
+		res.send JSON.stringify ret
 
 #
 # * 获取favicon

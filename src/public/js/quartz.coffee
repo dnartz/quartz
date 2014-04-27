@@ -136,6 +136,27 @@ quartzService.factory('Archive', ['$resource', ($resource)->
 		delay.promise
 ])
 
+# 文章评论服务
+quartzService.factory('Comment', ['$resource', ($resource)->
+	return $resource('/api/comment/p/:id', {id : '@id'})
+])
+
+# 按文章id获取评论的服务
+quartzService.factory('CommentLoader', ['$rootScope', '$q', 'Comment', ($rootScope, $q, Comment)->
+	(args)->
+		delay = $q.defer()
+
+		Comment.get({
+			postId : args.id
+			offset : args.offset
+			limit : args.limit
+			get : args.properties
+		}, (comments)->
+			delay.resolve comments
+		,->
+			delay.reject 'Unable to fetch comments')
+])
+
 quartzService.factory('NotFoundLoader',
 	['$rootScope', '$interval', '$q', 'titleFn', ($rootScope, $interval, $q, titleFn)->
 		->
