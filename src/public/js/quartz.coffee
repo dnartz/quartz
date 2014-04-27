@@ -146,12 +146,13 @@ quartzService.factory('CommentLoader', ['$rootScope', '$q', 'Comment', ($rootSco
 	(args)->
 		delay = $q.defer()
 
-		Comment.get({
-			postId : args.id
+		Comment.query({
+			id : args.id
 			offset : args.offset
 			limit : args.limit
 			get : args.properties
 		}, (comments)->
+			$rootScope.post.comments = comments
 			delay.resolve comments
 		,->
 			delay.reject 'Unable to fetch comments')

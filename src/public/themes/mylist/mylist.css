@@ -332,7 +332,7 @@ li {
 .comment-unit {
     border-bottom: 1px solid #e2e2e2;
     margin-top: 10px;
-    min-height: 55px;
+    min-height: 85px;
 }
 
 .comment-avatar {
@@ -370,11 +370,23 @@ li {
     width: 30%;
 }
 
-#comment-form >*{
+#comment-form > * {
+    border: 2px #DDD solid;
+    outline: none;
+    padding: 5px;
+    font-size: 100%;
+    color: #333;
     border-radius: 5px;
+}
+
+#comment-form > *:focus {
+    border-color: #BBB;
+    transition: border-color .250s linear;
 }
 
 #comment-content {
     resize: none;
-    width: 92%;
+    font-size: 18px;
+    margin-top: 10px;
+    width: 97%;
 }

@@ -1,1 +1,45 @@
-<header class="site-head" style="background-image: url({{cover[parseInt(Math.random()*cover.length)]}})"><div class="vertical"><div class="site-head-content inner"><a class="blog-logo" href="{{meta.homePage}}"><img src="http://www.gravatar.com/avatar/{{meta.emailMD5}}&s=100" alt="Blog Logo"></a><h1 class="blog-title" ng-bind="meta.blogName"></h1><h2 class="blog-description" ng-bind="meta.blogDescription"></h2></div></div></header><main class="content" role="main"><header class="tag-archive-header"><h1 ng-bind="$route.current.params.tag"></h1></header><article ng-repeat="post in posts" class="{{post_class}}"><header class="post-header"><span class="post-meta"><time datetime="{{post.postDate | date:'YYYY-MM-DD'}}" ng-bind="post.postDate | date:'YYYY-MM-DD'"></time> <span ng-if="post.tags.length>0">on&nbsp; <span ng-repeat-start="tag in post.tags" ng-bind="tag"></span> <span ng-repeat-end="" ng-bind="$last?'':', '"></span></span></span><h2 class="post-title"><a href="/{{post.id}}/post.title" ng-bind="post.title"></a></h2></header><section class="post-excerpt" ng-bind="post.content+'&hellip;'"></section></article></main>
+<!--< default-->
+
+<!-- The comment above "< default" means - insert everything in this file into
+    the {body} of the default.hbs template, which contains our header/footer. -->
+
+<!-- The big featured header on the homepage, with the site logo and description -->
+<header class="site-head" style="background-image: url({{cover[parseInt(Math.random()*cover.length)]}})">
+    <div class="vertical">
+        <div class="site-head-content inner">
+            <a class="blog-logo" href="{{meta.homePage}}">
+                <img src="http://www.gravatar.com/avatar/{{meta.emailMD5}}&s=100" alt="Blog Logo"/>
+            </a>
+
+            <h1 class="blog-title" ng-bind="meta.blogName"></h1>
+
+            <h2 class="blog-description" ng-bind="meta.blogDescription"></h2>
+        </div>
+    </div>
+</header>
+
+<!-- The main content area on the homepage -->
+<main class="content" role="main">
+
+    <header class="tag-archive-header">
+        <h1 ng-bind="$route.current.params.tag"></h1>
+    </header>
+
+    <article ng-repeat="post in posts" class="{{post_class}}">
+        <header class="post-header">
+            <span class="post-meta">
+                <time datetime="{{post.postDate | date:'YYYY-MM-DD'}}"
+                      ng-bind="post.postDate | date:'YYYY-MM-DD'"></time>
+                <span ng-if="post.tags.length>0">
+                   on&nbsp;
+                   <span ng-repeat-start="tag in post.tags" ng-bind="tag"></span>
+                   <span ng-repeat-end ng-bind="$last?'':', '"></span>
+                </span>
+            </span>
+
+            <h2 class="post-title"><a href="/{{post.id}}/post.title" ng-bind="post.title"></a></h2>
+        </header>
+        <section class="post-excerpt" ng-bind="post.content+'&hellip;'"></section>
+    </article>
+
+</main>

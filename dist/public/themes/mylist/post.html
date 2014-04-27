@@ -1,1 +1,44 @@
-<div id="content"><div id="post-{{post.id}}" class="post"><h2><b ng-bind="post.title"></b></h2><div class="post-info"><span class="post-date" ng-bind="post.postDate | date:'MMM d,yyyy H:mm'"></span><br><span class="tags-list">标签： <span ng-repeat="tag in post.tags"><a class="tag" href="/tag/{{tag}}" ng-bind="tag"></a> <span ng-bind="$last?'':', '"></span></span></span></div><div class="entry" ng-bind-html="post.content"></div></div><div id="comments"><h3>评论（2）</h3><br><div class="comment-unit"><img src="https://cdn.v2ex.com/avatar/7391/17de/23264_normal.png?m=1344384689" class="comment-avatar"><div class="comment-info"><a href="http://dnartz.me" class="comment-username">lelie</a> &nbsp;&nbsp;<span class="comment-time">Mar 23,2014 23:08</span><div class="comment-floor-num">#1</div></div><div class="comment-content">看看这个评论会不会太长……</div></div><div class="comment-unit"><img src="https://cdn.v2ex.com/avatar/7391/17de/23264_normal.png?m=1344384689" class="comment-avatar"><div class="comment-info"><a href="http://dnartz.me" class="comment-username">lelie</a> &nbsp;&nbsp;<span class="comment-time">Mar 23,2014 23:08</span><div class="comment-floor-num">#2</div></div><div class="comment-content">看看看这个评论会不会太长……看看这个评论会不会太长……看看这个评论会不会太长……看看这个评论会不会太长……看看这个评论……看看这个评论会不会太长……看看这个评论会不太长……看看这个评论会不会太长……看看这个评论会不会太长……看看这个评论会不会太长……看看这个评论会不会太长……看看这个评论会不会太长……看这个评论会不会太长……看这个评论会不会太长……</div></div><h3>发表评论</h3><form role="form" id="comment-form"><input type="text" name="author" placeholder="昵称"><input type="text" name="author-email" placeholder="电子邮件"><input type="text" name="author-homepage" placeholder="个人主页"><textarea id="comment-content" name="comment-content" placeholder="在这里输入评论……"></textarea></form></div></div>
+<div id="content">
+    <div id="post-{{post.id}}" class="post">
+        <h2>
+            <b ng-bind="post.title"></b>
+        </h2>
+
+        <div class="post-info">
+            <span class="post-date" ng-bind="post.postDate | date:'MMM d,yyyy H:mm'"></span>
+            <br>
+            <span class="tags-list">标签：
+                <span ng-repeat="tag in post.tags">
+                    <a class="tag" href="/tag/{{tag}}" ng-bind="tag"></a>
+                    <span ng-bind="$last?'':', '"></span>
+                </span>
+            </span>
+        </div>
+
+        <div class="entry" ng-bind-html="post.content"></div>
+    </div>
+    <div id="comments">
+        <h3>评论（<span ng-bind="post.commentCount"></span>）</h3><br>
+
+        <div ng-repeat="comment in post.comments" class="comment-unit">
+            <img src="http://www.gravatar.com/avatar/{{comment.authorEmailMD5}}" class="comment-avatar">
+
+            <div class="comment-info">
+                <a click-if="comment.authorHomePage" href="{{comment.authorHomePage}}" ng-bind="comment.author" class="comment-username"></a>
+                &nbsp;&nbsp;<time class="comment-time" ng-bind="comment.commentDate | date:'MMM d,yyyy H:mm'"></time>
+
+                <div class="comment-floor-num" ng-bind="'#'+(post.commentCount-$index)">#1</div>
+            </div>
+            <div class="comment-content" ng-bind-html="comment.content"></div>
+        </div>
+
+        <h3>发表评论</h3>
+
+        <form role="form" id="comment-form">
+            <input type="text" name="author" placeholder="昵称">&nbsp;&nbsp;
+            <input type="text" name="author-email" placeholder="电子邮件">&nbsp;&nbsp;
+            <input type="text" name="author-homepage" placeholder="个人主页">
+            <textarea id="comment-content" name="comment-content" rows="5" placeholder="在这里输入评论……"></textarea>
+        </form>
+    </div>
+</div>

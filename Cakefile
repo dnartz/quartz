@@ -76,9 +76,7 @@ make = (isDev = true)->
 						'public/themes']
 	runCmd ("coffee -b -c -o #{DIST}#{dir} #{SRC}#{dir}" )for dir in direct
 
-	# 不进行变量改名的JavaScript文件列表
-	noMt = (['public/js/quartz.js',
-					 'public/themes/mylist/mylist.js',
+	noMt = (['public/themes/mylist/mylist.js',
 					 'public/themes/tanzaku/tanzaku.js',
 					 'public/themes/casper/casper.js']).map (a) -> return DIST + a
 

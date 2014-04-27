@@ -56,7 +56,7 @@ module.exports = {
         _ref = postComments[id];
         for (key = _j = 0, _len1 = _ref.length; _j < _len1; key = ++_j) {
           comment = _ref[key];
-          if (ids.length !== 1 || !(offset != null) || !(limit != null) || offset >= key && (_.isUndefined(ret[id]) || ret[id].length < limit)) {
+          if (ids.length !== 1 || !(offset != null) || !(limit != null) || offset <= key && ret[id].length < limit) {
             ret[id].push({});
             for (property in comment) {
               if (__indexOf.call(properties, property) >= 0) {

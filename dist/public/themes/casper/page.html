@@ -1,1 +1,22 @@
-<main class="content" role="main"><article class="post"><header class="post-header"><a class="blog-logo" href="{{meta.homePage}}"><img src="http://www.gravatar.com/avatar/{{meta.emailMD5}}&s=100" alt="Blog Logo"></a></header><h1 ng-bind="post.content" class="post-title"></h1><section ng-bind="post.content" class="post-content"></section></article></main>
+<!--< default-->
+
+<!-- This is a page template. A page outputs content just like any other post, and has all the same
+    attributes by default, but you can also customise it to behave differently if you prefer. -->
+
+<main class="content" role="main">
+
+    <article class="post">
+
+        <header class="post-header">
+            <a class="blog-logo" href="{{meta.homePage}}"><img
+                    src="http://www.gravatar.com/avatar/{{meta.emailMD5}}&s=100" alt="Blog Logo"/></a>
+        </header>
+
+        <h1 ng-bind="post.content" class="post-title"></h1>
+
+        <section ng-bind="post.content" class="post-content">
+        </section>
+
+    </article>
+
+</main>

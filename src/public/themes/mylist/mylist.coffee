@@ -54,9 +54,6 @@ angular.module('quartz.theme', ['quartz.config', 'ngRoute', 'infinite-scroll'])
 				resolve :
 					post : (PostLoader)->
 						PostLoader()
-					comments : (CommentLoader)->
-						CommentLoader({
-						})
 				templateUrl : '/public/themes/mylist/post.html'
 
 			# 文章存档
@@ -87,7 +84,13 @@ angular.module('quartz.theme', ['quartz.config', 'ngRoute', 'infinite-scroll'])
 					moreTag : true
 				}
 				if ($rootScope.allPostsLoaded) then $rootScope.LoadMore = ->
-	]).controller('PostCtrl', [->
+	]).controller('PostCtrl', ['$routeParams', 'CommentLoader', ($routeParams, CommentLoader)->
+			CommentLoader({
+				id : $routeParams.id
+				properties : ['postDate', 'id', 'content', 'author', 'authorEmail', 'authorEmailMD5', 'commentDate']
+				offset : 0
+				limit : 15
+			})
 	]).controller('NotFoundCtrl', [->
 	]).controller('ArchiveCtrl', ['$rootScope', 'archive', '$scope', ($rootScope, archive, $scope)->
 		$rootScope.categories = archive
@@ -111,7 +114,16 @@ angular.module('quartz.theme', ['quartz.config', 'ngRoute', 'infinite-scroll'])
 				$scope.tposts[key].month = months[val.postDate.getMonth()]
 
 		$scope.curMonth = 0
-	])
+	]).directive "clickIf", ->
+		scope:
+			method: "&"
+			condition: "&clickIf"
+
+		link: ($scope, elem, attrs) ->
+			if $scope.condition()
+				elem.bind "click", (event) ->
+					event.preventDefault()
+					$scope.method id: attrs.val
 
 $("#bottom-menu").hover (->
 	$("#bottom-menu-img").animate

@@ -41,7 +41,7 @@ module.exports =
 				ret[id] = []
 				for comment, key in postComments[id]
 					# 如果limit和offset参数生效，那么就检查是否需要取得这篇评论
-					if ids.length isnt 1 or!(offset?) or !(limit?) or offset >= key and (_.isUndefined(ret[id]) or ret[id].length < limit)
+					if ids.length isnt 1 or!(offset?) or !(limit?) or offset <= key and ret[id].length < limit
 						ret[id].push {}
 						for property of comment
 							if property in properties then _.last(ret[id])[property] = postComments[id][key][property]
