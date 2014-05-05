@@ -54,6 +54,13 @@ angular.module('quartz.theme', ['quartz.config', 'ngRoute', 'infinite-scroll'])
 				resolve :
 					post : (PostLoader)->
 						PostLoader()
+					comments : ($route, CommentLoader) ->
+						CommentLoader {
+							id : $route.current.params.id
+							get : ['postDate', 'id', 'content', 'author', 'authorEmail', 'authorEmailMD5', 'commentDate']
+							offset : 0
+							limit : 15
+						}
 				templateUrl : '/public/themes/mylist/post.html'
 
 			# 文章存档
@@ -84,13 +91,17 @@ angular.module('quartz.theme', ['quartz.config', 'ngRoute', 'infinite-scroll'])
 					moreTag : true
 				}
 				if ($rootScope.allPostsLoaded) then $rootScope.LoadMore = ->
-	]).controller('PostCtrl', ['$routeParams', 'CommentLoader', ($routeParams, CommentLoader)->
-			CommentLoader({
-				id : $routeParams.id
-				properties : ['postDate', 'id', 'content', 'author', 'authorEmail', 'authorEmailMD5', 'commentDate']
-				offset : 0
-				limit : 15
-			})
+	]).controller('PostCtrl', ['$routeParams', '$scope', 'AddComment', '$rootScope'
+		($routeParams, $scope, AddComment, $rootScope)->
+			$scope.commentSubmit = {postId : $rootScope.post.id}
+			$scope.AddComment = ->
+				AddComment $scope.commentSubmit
+
+			# 评论表单重置函数
+			blankForm = {author : '', authorEmail : '', content : '', authorHomePage :''}
+			$rootScope.ResetCommentForm = ->
+				$scope.commentSubmit = blankForm
+				$scope.commentSubmit.postId = $rootScope.post.id
 	]).controller('NotFoundCtrl', [->
 	]).controller('ArchiveCtrl', ['$rootScope', 'archive', '$scope', ($rootScope, archive, $scope)->
 		$rootScope.categories = archive
@@ -114,7 +125,7 @@ angular.module('quartz.theme', ['quartz.config', 'ngRoute', 'infinite-scroll'])
 				$scope.tposts[key].month = months[val.postDate.getMonth()]
 
 		$scope.curMonth = 0
-	]).directive "clickIf", ->
+]).directive "clickIf", ->
 		scope:
 			method: "&"
 			condition: "&clickIf"

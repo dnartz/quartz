@@ -25,6 +25,23 @@ app.use(express.urlencoded());
 
 app.use(express.methodOverride());
 
+app.use(express.bodyParser());
+
+app.use(express.cookieParser('PfMoTk6BsJUi59QlINpgbwwIrNQZHV27'));
+
+app.use(express.session());
+
+app.use(express.csrf({
+  value: function(req) {
+    return req.headers['x-xsrf-token'];
+  }
+}));
+
+app.use(function(req, res, next) {
+  res.cookie('XSRF-TOKEN', req.csrfToken());
+  return next();
+});
+
 app.use(app.router);
 
 app.use(express["static"](path.join(__dirname, "public")));
@@ -46,6 +63,8 @@ app.get('/api/category/:category', routes.getPostsByCategories);
 app.get('/api/comment/:id', routes.getCommentById);
 
 app.get('/api/comment/p/:id', routes.getCommentsByPostId);
+
+app.post('/api/comment', routes.addPostComment);
 
 app.get('/api/archive', routes.archive);
 

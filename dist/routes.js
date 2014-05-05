@@ -105,9 +105,9 @@ exports.getPostsByCategories = function(req, res) {
   } else {
     result = post.getPropertiesByCategory(req.param('category'), query.get, query.offset, query.limit, query.moreTag);
     if (result === false) {
-      return res.send([]);
+      return res.json([]);
     } else {
-      return res.send(JSON.stringify(result));
+      return res.json(result);
     }
   }
 };
@@ -132,9 +132,9 @@ exports.getPostsBySingleTag = function(req, res) {
   }
   result = post.getPropertiesByTag(req.param('tag'), query.get, query.offset, query.limit, query.moreTag);
   if (result === false) {
-    return res.send([]);
+    return res.json([]);
   } else {
-    return res.send(JSON.stringify(result));
+    return res.json(result);
   }
 };
 
@@ -144,7 +144,7 @@ exports.getCommentById = function(req, res) {
   if (ret === false) {
     return res.status(404).send();
   } else {
-    return res.send(JSON.stringify(ret));
+    return res.json(ret);
   }
 };
 
@@ -165,8 +165,24 @@ exports.getCommentsByPostId = function(req, res) {
   if (ret === false) {
     return res.status(404).send();
   } else {
-    return res.send(JSON.stringify(ret));
+    return res.json(ret);
   }
+};
+
+exports.addPostComment = function(req, res) {
+  var ret;
+  ret = comment.addPostComment({
+    postId: parseInt(req.body.postId, 10),
+    content: req.body.content,
+    author: req.body.author,
+    authorEmail: req.body.authorEmail,
+    authorHomePage: req.body.authorHomePage,
+    authorIp: req.headers['x-forwarded-for'] || req.ip,
+    authorAgent: req.get('User-Agent'),
+    lastComment: req.session.lastComment || 0
+  });
+  req.session.lastComment = Date.now();
+  return res.status(ret.status).json(ret);
 };
 
 exports.getFavicon = function(req, res) {

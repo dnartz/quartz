@@ -186,6 +186,13 @@ quartzService.factory('Comment', [
   '$resource', function($resource) {
     return $resource('/api/comment/p/:id', {
       id: '@id'
+    }, {
+      save: {
+        method: 'POST',
+        isArray: false,
+        responseType: 'json',
+        url: '/api/comment'
+      }
     });
   }
 ]);
@@ -199,7 +206,7 @@ quartzService.factory('CommentLoader', [
         id: args.id,
         offset: args.offset,
         limit: args.limit,
-        get: args.properties
+        get: args.get
       }, function(comments) {
         $rootScope.post.comments = comments;
         return delay.resolve(comments);
@@ -226,6 +233,42 @@ quartzService.factory('NotFoundLoader', [
     };
   }
 ]);
+
+quartzService.factory('AddComment', [
+  'Comment', '$q', '$rootScope', function(Comment, $q, $rootScope) {
+    return function(args) {
+      var delay;
+      delay = $q.defer();
+      return Comment.save({
+        postId: args.postId,
+        content: args.content,
+        author: args.author,
+        authorEmail: args.authorEmail,
+        authorHomePage: args.authorHomePage
+      }, function(res) {
+        return $rootScope.ResetCommentForm();
+      }, function(res) {
+        return console.log(res);
+      });
+    };
+  }
+]);
+
+quartzService.directive("httpPrefix", function() {
+  return {
+    restrict: "A",
+    scope: false,
+    require: "ngModel",
+    link: function(scope, element, attr, ngModel) {
+      return element.bind("change", function() {
+        if (!/^(http):\/\//i.test(ngModel.$viewValue) && ngModel.$viewValue) {
+          ngModel.$setViewValue("http://" + ngModel.$viewValue);
+          return ngModel.$render();
+        }
+      });
+    }
+  };
+});
 
 quartzConfig = angular.module('quartz.config', []).constant('routeUrls', {
   HomePage: '/',

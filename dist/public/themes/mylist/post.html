@@ -15,7 +15,7 @@
             </span>
         </div>
 
-        <div class="entry" ng-bind-html="post.content"></div>
+        <article class="entry" ng-bind-html="post.content"></article>
     </div>
     <div id="comments">
         <h3>评论（<span ng-bind="post.commentCount"></span>）</h3><br>
@@ -24,9 +24,10 @@
             <img src="http://www.gravatar.com/avatar/{{comment.authorEmailMD5}}" class="comment-avatar">
 
             <div class="comment-info">
-                <a click-if="comment.authorHomePage" href="{{comment.authorHomePage}}" ng-bind="comment.author" class="comment-username"></a>
-                &nbsp;&nbsp;<time class="comment-time" ng-bind="comment.commentDate | date:'MMM d,yyyy H:mm'"></time>
-
+                <a click-if="comment.authorHomePage" href="{{comment.authorHomePage}}" ng-bind="comment.author"
+                   class="comment-username"></a>
+                &nbsp;&nbsp;
+                <time class="comment-time" ng-bind="comment.commentDate | date:'MMM d,yyyy H:mm'"></time>
                 <div class="comment-floor-num" ng-bind="'#'+(post.commentCount-$index)">#1</div>
             </div>
             <div class="comment-content" ng-bind-html="comment.content"></div>
@@ -34,11 +35,12 @@
 
         <h3>发表评论</h3>
 
-        <form role="form" id="comment-form">
-            <input type="text" name="author" placeholder="昵称">&nbsp;&nbsp;
-            <input type="text" name="author-email" placeholder="电子邮件">&nbsp;&nbsp;
-            <input type="text" name="author-homepage" placeholder="个人主页">
-            <textarea id="comment-content" name="comment-content" rows="5" placeholder="在这里输入评论……"></textarea>
+        <form role="form" name="commentForm" id="comment-form" ng-submit="AddComment()">
+            <input name="author" ng-model="commentSubmit.author" required type="text" placeholder="昵称（必填）">&nbsp;
+            <input name="authorEmail" ng-model="commentSubmit.authorEmail" required type="email" placeholder="电子邮件（必填）">&nbsp;
+            <input ng-model="commentSubmit.authorHomePage" name="authorHomePage" http-prefix type="url" placeholder="个人主页">
+            <textarea ng-model="commentSubmit.content" name="content" id="comment-content" ng-minLength="{{meta.minCommentLength}}" ng-maxLength="{{meta.maxCommentLength}}"required type="text" rows="5" placeholder="在这里输入评论……"></textarea>
+            <button id="comment-submit" type="submit" style="color: #888;">发表</button>
         </form>
     </div>
 </div>

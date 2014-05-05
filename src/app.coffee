@@ -13,6 +13,16 @@ app.use express.logger "dev"
 app.use express.json()
 app.use express.urlencoded()
 app.use express.methodOverride()
+app.use express.bodyParser()
+
+# XSRF防护
+app.use express.cookieParser 'PfMoTk6BsJUi59QlINpgbwwIrNQZHV27'
+app.use express.session()
+app.use express.csrf(value : (req)-> return req.headers['x-xsrf-token'])
+app.use (req, res, next)->
+	res.cookie 'XSRF-TOKEN', req.csrfToken()
+	next()
+
 app.use app.router
 
 app.use express.static path.join(__dirname, "public")
@@ -39,6 +49,9 @@ app.get '/api/comment/:id',routes.getCommentById
 
 # 按照文章ID获取评论
 app.get '/api/comment/p/:id', routes.getCommentsByPostId
+
+# 按照文章ID添加评论
+app.post '/api/comment', routes.addPostComment
 
 # 获取文章存档
 app.get '/api/archive', routes.archive

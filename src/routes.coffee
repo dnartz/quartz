@@ -26,7 +26,8 @@ exports.index = (req, res) ->
 		res.sendfile "public/themes/#{currentTheme}/index.html"
 	else
 		res.sendfile(req.url.substring(1), null, (err)->
-			if err then res.sendfile "public/themes/#{currentTheme}/index.html")
+			if err
+				res.sendfile "public/themes/#{currentTheme}/index.html")
 
 #
 # * GET blog info
@@ -55,9 +56,9 @@ exports.multiPost = (req, res)->
 	if _.isUndefined query.limit then query.limit = null else query.limit = parseInt query.limit, 10
 
 	ret = post.getPropertiesByOrder(
-																	 [query.offset...query.offset + query.limit],
-																	 query.get,
-																	 query.moreTag)
+		[query.offset...query.offset + query.limit],
+		query.get,
+		query.moreTag)
 	if ret is false
 		res.send([])
 	else
@@ -83,16 +84,16 @@ exports.getPostsByCategories = (req, res)->
 		res.status(404).send()
 	else
 		result = post.getPropertiesByCategory(
-																					 req.param('category'),
-																					 query.get,
-																					 query.offset,
-																					 query.limit,
-																					 query.moreTag)
+			req.param('category'),
+			query.get,
+			query.offset,
+			query.limit,
+			query.moreTag)
 
 		if result is false
-			res.send([])
+			res.json []
 		else
-			res.send JSON.stringify result
+			res.json result
 
 #
 # * GET posts by single tag
@@ -106,17 +107,17 @@ exports.getPostsBySingleTag = (req, res)->
 	if query.moreTag == 'true' then query.moreTag = true else query.moreTag = false
 
 	result = post.getPropertiesByTag(
-																		req.param('tag'),
-																		query.get,
-																		query.offset,
-																		query.limit,
-																		query.moreTag
-																	)
+		req.param('tag'),
+		query.get,
+		query.offset,
+		query.limit,
+		query.moreTag
+	)
 
 	if result is false
-		res.send([])
+		res.json []
 	else
-		res.send JSON.stringify result
+		res.json result
 
 #
 # * GET comment by Id
@@ -126,7 +127,7 @@ exports.getCommentById = (req, res)->
 	if ret is false
 		res.status(404).send()
 	else
-		res.send JSON.stringify(ret)
+		res.json ret
 
 #
 # * GET comments by post id
@@ -140,7 +141,25 @@ exports.getCommentsByPostId = (req, res)->
 	if ret is false
 		res.status(404).send()
 	else
-		res.send JSON.stringify ret
+		res.json ret
+
+#
+# * POST comment
+#
+exports.addPostComment = (req, res)->
+	ret = comment.addPostComment {
+		postId : parseInt req.body.postId, 10
+		content : req.body.content
+		author : req.body.author
+		authorEmail : req.body.authorEmail
+		authorHomePage : req.body.authorHomePage
+		authorIp : req.headers['x-forwarded-for'] or req.ip
+		authorAgent : req.get 'User-Agent'
+		lastComment : req.session.lastComment or 0
+	}
+
+	req.session.lastComment = Date.now()
+	res.status(ret.status).json ret
 
 #
 # * 获取favicon

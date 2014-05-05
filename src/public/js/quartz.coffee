@@ -138,7 +138,14 @@ quartzService.factory('Archive', ['$resource', ($resource)->
 
 # 文章评论服务
 quartzService.factory('Comment', ['$resource', ($resource)->
-	return $resource('/api/comment/p/:id', {id : '@id'})
+	return $resource('/api/comment/p/:id', {id : '@id'},{
+		save : {
+			method : 'POST'
+			isArray : false
+			responseType : 'json'
+			url : '/api/comment'
+		}
+	})
 ])
 
 # 按文章id获取评论的服务
@@ -150,7 +157,7 @@ quartzService.factory('CommentLoader', ['$rootScope', '$q', 'Comment', ($rootSco
 			id : args.id
 			offset : args.offset
 			limit : args.limit
-			get : args.properties
+			get : args.get
 		}, (comments)->
 			$rootScope.post.comments = comments
 			delay.resolve comments
@@ -170,7 +177,34 @@ quartzService.factory('NotFoundLoader',
 			, 10
 
 			delay.promise
-	])
+])
+
+# 发表评论服务
+quartzService.factory('AddComment', ['Comment', '$q', '$rootScope', (Comment, $q, $rootScope)->
+	(args)->
+		delay = $q.defer()
+		Comment.save {
+			postId : args.postId
+			content : args.content
+			author : args.author
+			authorEmail : args.authorEmail
+			authorHomePage : args.authorHomePage
+		}, (res)->
+			$rootScope.ResetCommentForm()
+		, (res) ->
+			console.log res
+])
+
+# http表单输入前缀
+quartzService.directive "httpPrefix", ->
+	restrict: "A"
+	scope: false
+	require: "ngModel"
+	link: (scope, element, attr, ngModel) ->
+		element.bind "change", ->
+			if !/^(http):\/\//i.test(ngModel.$viewValue) and ngModel.$viewValue
+				ngModel.$setViewValue "http://" + ngModel.$viewValue
+				ngModel.$render()
 
 # 博客系统的常量以及变量初始化
 quartzConfig = angular.module('quartz.config', []).constant('routeUrls', {

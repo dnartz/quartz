@@ -10,4 +10,5 @@ module.exports = {
 									 'authorEmailMD5', 'content']
 	themesList : ['mylist', 'casper']
 	maxPostPerRequest : 15
+	minCommentInterval: 15
 }

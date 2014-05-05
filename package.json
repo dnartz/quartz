@@ -12,6 +12,8 @@
     "async": "~0.2.10",
     "execSync": "~1.0.1-pre",
     "html-minifier": "~0.5.5",
-    "clean-css": "~2.1.6"
+    "clean-css": "~2.1.6",
+    "validator": "^3.11.0",
+    "sanitizer": "^0.1.1"
   }
 }

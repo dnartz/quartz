@@ -57,6 +57,14 @@ angular.module('quartz.theme', ['quartz.config', 'ngRoute', 'infinite-scroll']).
       resolve: {
         post: function(PostLoader) {
           return PostLoader();
+        },
+        comments: function($route, CommentLoader) {
+          return CommentLoader({
+            id: $route.current.params.id,
+            get: ['postDate', 'id', 'content', 'author', 'authorEmail', 'authorEmailMD5', 'commentDate'],
+            offset: 0,
+            limit: 15
+          });
         }
       },
       templateUrl: '/public/themes/mylist/post.html'
@@ -96,13 +104,24 @@ angular.module('quartz.theme', ['quartz.config', 'ngRoute', 'infinite-scroll']).
     };
   }
 ]).controller('PostCtrl', [
-  '$routeParams', 'CommentLoader', function($routeParams, CommentLoader) {
-    return CommentLoader({
-      id: $routeParams.id,
-      properties: ['postDate', 'id', 'content', 'author', 'authorEmail', 'authorEmailMD5', 'commentDate'],
-      offset: 0,
-      limit: 15
-    });
+  '$routeParams', '$scope', 'AddComment', '$rootScope', function($routeParams, $scope, AddComment, $rootScope) {
+    var blankForm;
+    $scope.commentSubmit = {
+      postId: $rootScope.post.id
+    };
+    $scope.AddComment = function() {
+      return AddComment($scope.commentSubmit);
+    };
+    blankForm = {
+      author: '',
+      authorEmail: '',
+      content: '',
+      authorHomePage: ''
+    };
+    return $rootScope.ResetCommentForm = function() {
+      $scope.commentSubmit = blankForm;
+      return $scope.commentSubmit.postId = $rootScope.post.id;
+    };
   }
 ]).controller('NotFoundCtrl', [function() {}]).controller('ArchiveCtrl', [
   '$rootScope', 'archive', '$scope', function($rootScope, archive, $scope) {

@@ -7,5 +7,7 @@
   "siteUrl": "http://localhost:3000/",
   "aboutMe": "/about",
   "rss": "/api/feed",
+  "minCommentLength": 10,
+  "maxCommentLength": 1500,
   "maxPostPerReq": 15
 }

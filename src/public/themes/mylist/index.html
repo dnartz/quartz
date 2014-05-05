@@ -1,5 +1,5 @@
 <!doctype html>
-<html ng-app="quartz">
+<html ng-app="quartz" xmlns="http://www.w3.org/1999/html">
 
 <head>
     <meta http-equiv="Content-Type" content="text/html" charset="utf-8">
@@ -18,7 +18,7 @@
 <body>
 
 <div id="container" ng-view>
-    <script id="multipost.html" type="text/ng-template"><div id="content" infinite-scroll='LoadMore()' infinite-scroll-distance='2'><div ng-repeat="post in posts" id="post-{{post.id}}" class="post"><h2><a href="/{{post.id}}/{{post.title}}" title="{{post.title}}"><b ng-bind="post.title"></b></a></h2><div class="post-info"><span class="post-date" ng-bind="post.postDate | date:'MMM d,yyyy H:mm'"></span><br><span class="tags-list">标签：<span ng-repeat="tag in post.tags"><a class="tag" href="/tag/{{tag}}" title="查看所有含有标签{{tag}}的文章" ng-bind="tag"></a><span ng-bind="$last?'':', '"></span></span></span></div><div class="entry" ng-bind-html="post.content"> </div><p class="read-more" ng-if="post.moreTag"><a href="/{{post.id}}/{{post.title}}" class="more-link">余下全文»</a></p></div></div></script>
+    <script id="multipost.html" type="text/ng-template"><div id="content" infinite-scroll='LoadMore()' infinite-scroll-distance='2'><div ng-repeat="post in posts" id="post-{{post.id}}" class="post"><h2><a href="/{{post.id}}/{{post.title}}" title="{{post.title}}"><b ng-bind="post.title"></b></a></h2><div class="post-info"><span class="post-date" ng-bind="post.postDate | date:'MMM d,yyyy H:mm'"></span><br><span class="tags-list">标签：<span ng-repeat="tag in post.tags"><a class="tag" href="/tag/{{tag}}" title="查看所有含有标签{{tag}}的文章" ng-bind="tag"></a><span ng-bind="$last?'':', '"></span></span></span></div><section class="entry" ng-bind-html="post.content"></section><p class="read-more" ng-if="post.moreTag"><a href="/{{post.id}}/{{post.title}}" class="more-link">余下全文»</a></p></div></div></script>
 </div>
 
 <div id="footer">

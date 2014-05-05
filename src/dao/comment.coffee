@@ -10,6 +10,9 @@ comments = {}
 # 文章评论对象（按文章id排序）
 postComments = {}
 
+# 最大评论id
+maxCommentId = 0
+
 # JSON文件名列表
 JSONList = []
 
@@ -19,6 +22,7 @@ rd.eachSync __dirname + '/../data/comments', (f)->
 for filename in JSONList
 	unit = JSON.parse fs.readFileSync filename
 	comments[unit.id] = unit
+	maxCommentId = unit.id if unit.id > maxCommentId
 	if _.isArray postComments[unit.postId]
 		postComments[unit.postId].push unit
 	else
@@ -30,3 +34,4 @@ for postId of postComments
 
 exports.comments = comments
 exports.postComments = postComments
+exports.maxCommentId = maxCommentId
