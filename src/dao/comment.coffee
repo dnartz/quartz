@@ -1,10 +1,10 @@
-fs = require 'fs'
-rd = require 'rd'
-path = require 'path'
+fs = Quartz.lib.fs
+rd = Quartz.lib.rd
+path = Quartz.lib.path
 
-{_} = require 'underscore'
+_ = Quartz.lib._
 
-{postsIdIndex} = require __dirname + '/../dao/post'
+{postsIdIndex} = Quartz.dao.post
 
 # 评论对象（按评论id排序）
 comments = {}

@@ -61,7 +61,7 @@ angular.module('quartz.theme', ['quartz.config', 'ngRoute', 'infinite-scroll']).
         comments: function($route, CommentLoader) {
           return CommentLoader({
             id: $route.current.params.id,
-            get: ['postDate', 'id', 'content', 'author', 'authorEmail', 'authorEmailMD5', 'commentDate'],
+            get: ['postDate', 'id', 'content', 'author', 'authorEmailMD5', 'commentDate'],
             offset: 0,
             limit: 15
           });

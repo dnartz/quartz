@@ -1,6 +1,6 @@
-fs = require 'fs'
+fs = Quartz.lib.fs
 
-{posts} = require './post'
+{posts} = Quartz.dao.post
 
 categories = []
 

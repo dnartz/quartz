@@ -65,6 +65,7 @@ make = (isDev = true)->
 	# -----------------
 	# 编译CoffeeScript
 	runCmd "coffee -b -c -o #{DIST} #{SRC}app.coffee"
+	runCmd "coffee -b -c -o #{DIST} #{SRC}Quartz.coffee"
 	runCmd "coffee -b -c -o #{DIST} #{SRC}routes.coffee"
 
 	# 直接编译的目录

@@ -1,14 +1,14 @@
-# @todo: 使用高阶函数进行一次抽象
+# @todo: 使用高阶函数进行抽象
 
-url = require 'url'
-{_} = require 'underscore'
+url = Quartz.lib.url
+_ = Quartz.lib._
 
-post = require './models/post'
-comment = require './models/comment'
-getCategory = require './models/archive'
-meta = JSON.stringify require './dao/meta'
+post = Quartz.api.post
+comment = Quartz.api.comment
+getCategory = Quartz.api.archive
 
-config = require './data/config/config'
+meta = Quartz.config.meta
+config = Quartz.config.system
 
 currentTheme = 'mylist'
 # 每隔一段时间随机切换主题
@@ -33,7 +33,7 @@ exports.index = (req, res) ->
 # * GET blog info
 #
 exports.meta = (req, res)->
-	res.send meta
+	res.json meta
 
 #
 # * GET single post content
@@ -148,14 +148,14 @@ exports.getCommentsByPostId = (req, res)->
 #
 exports.addPostComment = (req, res)->
 	ret = comment.addPostComment {
-		postId : parseInt req.body.postId, 10
-		content : req.body.content
-		author : req.body.author
-		authorEmail : req.body.authorEmail
-		authorHomePage : req.body.authorHomePage
-		authorIp : req.headers['x-forwarded-for'] or req.ip
-		authorAgent : req.get 'User-Agent'
-		lastComment : req.session.lastComment or 0
+		postId: parseInt req.body.postId, 10
+		content: req.body.content
+		author: req.body.author
+		authorEmail: req.body.authorEmail
+		authorHomePage: req.body.authorHomePage
+		authorIp: req.headers['x-forwarded-for'] or req.ip
+		authorAgent: req.get 'User-Agent'
+		lastComment: req.session.lastComment or 0
 	}
 
 	req.session.lastComment = Date.now()

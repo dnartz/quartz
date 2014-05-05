@@ -1,10 +1,11 @@
-###
-Module dependencies.
-###
-express = require "express"
-routes = require "./routes"
-http = require "http"
-path = require "path"
+# 初始化全局变量
+global.Quartz = {}
+require './Quartz'
+
+express = Quartz.lib.express
+routes = Quartz.routes
+http = Quartz.lib.http
+path = Quartz.lib.path
 app = express()
 
 # all environments

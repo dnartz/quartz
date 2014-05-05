@@ -1,21 +1,21 @@
-{posts} = require __dirname + '/../dao/post'
+{posts} = Quartz.dao.post
 postIds = posts.map (a)-> parseInt a.id, 10
-{postsIdIndex} = require __dirname + '/../dao/post'
-{tagsIndex} = require __dirname + '/../dao/post'
-tagsList = require(__dirname + '/../dao/post').tags
+{postsIdIndex} = Quartz.dao.post
+{tagsIndex} = Quartz.dao.post
+tagsList = Quartz.dao.post.tags
 
-{postFields} = require __dirname + '/../data/config/config'
+{postFields} = Quartz.config.system
 
-categories = require __dirname + '/../dao/category'
+categories = Quartz.dao.category
 
 # 初始化数组索引
 categoriesIndex = {}
 (categoriesIndex[category] = []) for category in categories
 (categoriesIndex[post.category].push post)for post in posts
 
-{cutContent} = require __dirname + '/../utility/post'
+{cutContent} = Quartz.lib.utility.post
 
-{_} = require 'underscore'
+_ = Quartz.lib._
 
 ###*
   * 数组特殊辅助函数，去除数组中所有的false
@@ -50,7 +50,7 @@ propertiesCheck = (properties)->
 	if _.isArray(properties) isnt true then properties = [properties]
 	if _.intersection(properties, postFields).length is 0 then return false else return properties
 
-{idsCheck} = require __dirname + '/../utility/misc'
+{idsCheck} = Quartz.lib.utility.misc
 
 ###*
   * 检查文章Id的和要查询的属性数组的合法性

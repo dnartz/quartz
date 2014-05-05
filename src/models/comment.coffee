@@ -1,21 +1,22 @@
-{_} = require 'underscore'
-{writeFile} = require 'fs'
+_ = Quartz.lib._
+{writeFile} = Quartz.lib.fs
 
-{postsIdIndex} = require __dirname + '/../dao/post'
+{postsIdIndex} = Quartz.dao.post
 
-{comments} = require __dirname + '/../dao/comment'
-{postComments} = require __dirname + '/../dao/comment'
-{maxCommentId} = require __dirname + '/../dao/comment'
+{comments} = Quartz.dao.comment
+{postComments} = Quartz.dao.comment
+{maxCommentId} = Quartz.dao.comment
 
-{commentFields} = require __dirname + '/../data/config/config'
-{minCommentInterval} = require __dirname + '/../data/config/config'
+{commentFields} = Quartz.config.system
+{minCommentInterval} = Quartz.config.system
 minCommentInterval *= 1000
 
-{idsCheck} = require __dirname + '/../utility/misc'
-md5 = require __dirname + '/../utility/md5'
+{idsCheck} = Quartz.lib.utility.misc
+{plain2HTML} = Quartz.lib.utility.misc
+md5 = Quartz.lib.utility.md5
 
-validator = require 'validator'
-xssClean = require('sanitizer').sanitize
+validator = Quartz.lib.validator
+xssClean = Quartz.lib.sanitizer.sanitize
 
 module.exports =
 	###*
@@ -91,6 +92,8 @@ module.exports =
 				throw '非法的个人主页URL。'
 		catch e
 			return {status : 400, msg : e}
+
+		comment.content = plain2HTML comment.content
 
 		comment.authorEmailMD5 = md5 comment.authorEmail
 		comment.commentDate = Date.now()

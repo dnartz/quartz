@@ -1,8 +1,8 @@
-rd = require 'rd'
-fs = require 'fs'
-path = require 'path'
+rd = Quartz.lib.rd
+fs = Quartz.lib.fs
+path = Quartz.lib.path
 
-{_} = require 'underscore'
+{_} = Quartz.lib._
 
 # 读取所有文章信息
 

@@ -52,8 +52,14 @@ angular.module('quartz.theme', ['quartz.config', 'ngRoute', 'infinite-scroll'])
 			}).when(routeUrls.Single, {
 				controller : 'PostCtrl'
 				resolve :
-					post : (PostLoader)->
-						PostLoader()
+					post : (PostLoader)-> PostLoader()
+					comments : ($route, CommentLoader) ->
+						CommentLoader {
+							id : $route.current.params.id
+							get : ['postDate', 'id', 'content', 'author', 'authorEmailMD5', 'commentDate']
+							offset : 0
+							limit : 15
+						}
 				templateUrl : '/public/themes/tanzaku/post.html'
 			}).otherwise({redirectTo : '/'})
 	]).service('redrawGrid', ['$rootScope', ($rootScope)->

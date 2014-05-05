@@ -1,4 +1,4 @@
-{_}=require 'underscore'
+_ = Quartz.lib._
 
 ###*
   * 检查id数组的合法性
@@ -10,3 +10,12 @@ exports.idsCheck = (ids)->
 	if _.isArray(ids) isnt true then ids = [ids]
 	ids = ids.map (a)->
 		parseInt a, 10 # 将所有元素都转换成number型
+
+###*
+  * 将普通字符串转换成HTML
+  * @param {string} str 要转换的字符串
+  * @return {XML|string} 转换后的HTML
+###
+exports.plain2HTML = (str)->
+	return str.replace(/\t/g, "    ").replace(RegExp("  ", "g"), "&nbsp; ").replace(RegExp("  ", "g"),
+		" &nbsp;").replace(/\r\n|\n|\r/g, "<br>")

@@ -1,9 +1,9 @@
-{_} = require 'underscore'
-{postFields} = require __dirname + '/../data/config/config'
+{_} = Quartz.lib._
+{postFields} = Quartz.config.system
 
-{cutContent} = require __dirname + '/../utility/post'
+{cutContent} = Quartz.lib.utility.post
 
-categories = (require __dirname + '/../dao/category').reduce (prev, a)->
+categories = (Quartz.dao.category).reduce (prev, a)->
 	if _.isArray(prev) isnt true then prev = []
 	prev.push {
 		name : a
@@ -12,7 +12,7 @@ categories = (require __dirname + '/../dao/category').reduce (prev, a)->
 	}
 	return prev
 
-{posts} = require __dirname + '/../dao/post'
+{posts} = Quartz.dao.post
 
 for post in posts
 	for val,key in categories

@@ -2,21 +2,21 @@
 var arrayIndex2PostId, categories, categoriesIndex, category, cutContent, fetchPropertiesById, idsAndPropertiesCheck, idsCheck, isEmptyArray, post, postFields, postIds, posts, postsIdIndex, propertiesCheck, tagsIndex, tagsList, that, _, _i, _j, _len, _len1,
   __slice = [].slice;
 
-posts = require(__dirname + '/../dao/post').posts;
+posts = Quartz.dao.post.posts;
 
 postIds = posts.map(function(a) {
   return parseInt(a.id, 10);
 });
 
-postsIdIndex = require(__dirname + '/../dao/post').postsIdIndex;
+postsIdIndex = Quartz.dao.post.postsIdIndex;
 
-tagsIndex = require(__dirname + '/../dao/post').tagsIndex;
+tagsIndex = Quartz.dao.post.tagsIndex;
 
-tagsList = require(__dirname + '/../dao/post').tags;
+tagsList = Quartz.dao.post.tags;
 
-postFields = require(__dirname + '/../data/config/config').postFields;
+postFields = Quartz.config.system.postFields;
 
-categories = require(__dirname + '/../dao/category');
+categories = Quartz.dao.category;
 
 categoriesIndex = {};
 
@@ -30,9 +30,9 @@ for (_j = 0, _len1 = posts.length; _j < _len1; _j++) {
   categoriesIndex[post.category].push(post);
 }
 
-cutContent = require(__dirname + '/../utility/post').cutContent;
+cutContent = Quartz.lib.utility.post.cutContent;
 
-_ = require('underscore')._;
+_ = Quartz.lib._;
 
 
 /**
@@ -89,7 +89,7 @@ propertiesCheck = function(properties) {
   }
 };
 
-idsCheck = require(__dirname + '/../utility/misc').idsCheck;
+idsCheck = Quartz.lib.utility.misc.idsCheck;
 
 
 /**

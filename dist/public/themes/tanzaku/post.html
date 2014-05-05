@@ -23,47 +23,52 @@
             <a href="#respond" title="留下评论" ng-bind="((post.commentCount<1)?'没有评论':post.commentCount+'条评论')+'&raquo;'"></a>
         </h2>
 
-        <div ng-if="post.commentCount>0" ng-repeat="comment in post.comments" class="comment-list">
+        <div ng-if="post.commentCount>0" class="comment-list">
+            <ol>
+                <li ng-repeat="comment in post.comments" class="comment">
+                    <div class="comment-body">
+                        <div class="comment-author">
+                            <img title="{{comment.author}}" src="http://www.gravatar.com/avatar/{{comment.authorEmailMD5}}" class="avatar">
+                            <a click-if="comment.authorHomePage" href="{{(comment.authorHomePage)?comment.authorHomePage:'#'}}" class="comment-author" ng-bind="comment.author"></a>
+                            <span class="says">说：</span>
+                        </div>
 
+                        <div class="comment-meta commentmetadata" ng-bind="comment.postDate | date:'MMM d,yyyy H:mm'"></div>
+
+                        <p ng-bind="comment.content"></p>
+                    </div>
+                </li>
+            </ol>
         </div>
     </div>
 
     <div class="single-item" id="respond">
         <h2 class="comment-title">发表评论</h2>
 
-<!--        <div id="cancel-comment-reply">
-            <a rel="nofollow" id="cancel-comment-reply-link"
-               href="/wordpress/311/%e8%80%83%e8%af%95%ef%bc%8c%e7%bb%93%e6%9d%9f#respond" style="display:none;">点击这里取消回复。</a>
-        </div>-->
-
         <div class="comment-form">
 
 
             <form method="post" id="commentform">
 
-                <p><input type="text" name="author" id="author" value="tete" size="22" tabindex="1"
-                          aria-required='true'/>
+                <p><input type="text" name="author" id="author" ng-model="commentSubmit.author" size="22" tabindex="1" aria-required='true'>
                     <label for="author">
                         <small>姓名 (必填)</small>
                     </label></p>
 
-                <p><input type="text" name="email" id="email" value="xylon.tao@gmail.com" size="22" tabindex="2"
-                          aria-required='true'/>
+                <p><input type="email" name="email" id="email" ng-model="commentSubmit.authorEmail" size="22" tabindex="2"
+                          aria-required='true'>
                     <label for="email">
-                        <small>电子邮件（不会被公开） (必填)</small>
+                        <small>电子邮件(必填)</small>
                     </label></p>
 
-                <p><input type="text" name="url" id="url" value="" size="22" tabindex="3"/>
+                <p><input type="url" name="url" id="url" ng-model="commentSubmit.authorHomePage" tabindex="3">
                     <label for="url">
                         <small>站点</small>
                     </label></p>
 
-                <p><textarea name="comment" id="comment" rows="10" tabindex="4"></textarea></p>
+                <p><textarea ng-bind="commentSubmit.content" name="comment" id="comment" rows="10" tabindex="4" style="resize: none"></textarea></p>
 
-                <p><input name="submit" type="submit" id="submit" tabindex="5" value="发表评论"/>
-                    <input type='hidden' name='comment_post_ID' value='{{post.id}}' id='comment_post_ID'/>
-                    <input type='hidden' name='comment_parent' id='comment_parent' value='0'/>
-                </p>
+                <p><button name="submit" type="submit" id="submit" tabindex="5">发表评论</button></p>
             </form>
 
         </div>
