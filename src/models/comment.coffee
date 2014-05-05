@@ -67,7 +67,7 @@ module.exports =
   	* @return {*} 返回一个表示操作结果的对象，包括status（HTTP状态码）,msg（返回信息）
 	###
 	addPostComment : (comment)->
-		if (Date.now() - comment.lastComment) < minCommentInterval then return {status : 403, msg : '短时间内发表太多评论。'}
+		if (Date.now() - comment.lastComment) < minCommentInterval then return {status : 403, msg : '请不要短时间内发表太多评论。'}
 
 		# 所有输入进行一遍XSS消毒
 		comment[field] = xssClean comment[field] for field of comment
@@ -88,7 +88,7 @@ module.exports =
 
 			# 如果用户填写了主页地址，那么就检查主页地址是否合法
 			if comment.authorHomePage.indexOf('http://') isnt -1 and validator.isURL(comment.authorHomePage) isnt true
-				throw '非法的个人URL。'
+				throw '非法的个人主页URL。'
 		catch e
 			return {status : 400, msg : e}
 
@@ -99,4 +99,12 @@ module.exports =
 		writeFile __dirname + "/../data/comments/#{comment.id}.json", JSON.stringify(comment), (err)->
 			if err then console.log err
 
-		return {status : 200, msg : '评论发表成功。'}
+		# 更新评论数据模型
+		postsIdIndex[comment.postId].commentCount++
+		comments[comment.id] = comment
+		if _.isArray(postComments[comment.postId])
+			postComments[comment.postId].push comment
+		else
+			postComments[comment.postId] = [comment]
+
+		return {status : 200, msg : '评论发表成功。', comment : comment}

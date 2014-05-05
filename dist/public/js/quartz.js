@@ -246,9 +246,17 @@ quartzService.factory('AddComment', [
         authorEmail: args.authorEmail,
         authorHomePage: args.authorHomePage
       }, function(res) {
-        return $rootScope.ResetCommentForm();
-      }, function(res) {
-        return console.log(res);
+        $rootScope.ResetCommentForm();
+        if (!_.isArray($rootScope.post.comments)) {
+          $rootScope.post.comments = [];
+        }
+        $rootScope.post.comments.unshift(res.comment);
+        $rootScope.post.commentCount++;
+        $rootScope.commentSubmitStatus = res;
+        return delay.resolve(res);
+      }, function(err) {
+        $rootScope.commentSubmitStatus = err.data;
+        return delay.reject(err.data);
       });
     };
   }

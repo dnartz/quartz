@@ -100,7 +100,7 @@ module.exports = {
     if ((Date.now() - comment.lastComment) < minCommentInterval) {
       return {
         status: 403,
-        msg: '短时间内发表太多评论。'
+        msg: '请不要短时间内发表太多评论。'
       };
     }
     for (field in comment) {
@@ -121,7 +121,7 @@ module.exports = {
         throw '非法的IP地址。';
       }
       if (comment.authorHomePage.indexOf('http://') !== -1 && validator.isURL(comment.authorHomePage) !== true) {
-        throw '非法的个人URL。';
+        throw '非法的个人主页URL。';
       }
     } catch (_error) {
       e = _error;
@@ -138,9 +138,17 @@ module.exports = {
         return console.log(err);
       }
     });
+    postsIdIndex[comment.postId].commentCount++;
+    comments[comment.id] = comment;
+    if (_.isArray(postComments[comment.postId])) {
+      postComments[comment.postId].push(comment);
+    } else {
+      postComments[comment.postId] = [comment];
+    }
     return {
       status: 200,
-      msg: '评论发表成功。'
+      msg: '评论发表成功。',
+      comment: comment
     };
   }
 };

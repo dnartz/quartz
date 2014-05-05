@@ -390,3 +390,14 @@ li {
     margin-top: 10px;
     width: 97%;
 }
+
+#comment-submit {
+    color: #888;
+    float: right;
+}
+
+#comment-submit-status {
+    border: none;
+    color: #c0c0c0;
+    font-size: 14px;
+}

@@ -26,6 +26,7 @@ for (_i = 0, _len = JSONList.length; _i < _len; _i++) {
   posts.push(JSON.parse(fs.readFileSync(filename)));
   _.last(posts).id = parseInt(_.last(posts).id, 10);
   postsIdIndex[_.last(posts).id] = _.last(posts);
+  _.last(posts).commentCount = 0;
 }
 
 posts.sort(function(a, b) {

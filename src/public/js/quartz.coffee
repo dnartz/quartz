@@ -128,8 +128,8 @@ quartzService.factory('Archive', ['$resource', ($resource)->
 				get : properties
 				moreTag : moreTag
 			}, (archive)->
-			titleFn 'Archive'
-			delay.resolve archive
+				titleFn 'Archive'
+				delay.resolve archive
 		, ->
 			delay.reject 'Unable to fetch archive')
 
@@ -191,8 +191,17 @@ quartzService.factory('AddComment', ['Comment', '$q', '$rootScope', (Comment, $q
 			authorHomePage : args.authorHomePage
 		}, (res)->
 			$rootScope.ResetCommentForm()
-		, (res) ->
-			console.log res
+
+			# 显示用户新添加的评论
+			if !_.isArray $rootScope.post.comments then $rootScope.post.comments = []
+			$rootScope.post.comments.unshift res.comment
+			$rootScope.post.commentCount++
+
+			$rootScope.commentSubmitStatus = res
+			delay.resolve res
+		, (err) ->
+			$rootScope.commentSubmitStatus = err.data
+			delay.reject err.data
 ])
 
 # http表单输入前缀

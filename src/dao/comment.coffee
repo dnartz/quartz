@@ -2,7 +2,9 @@ fs = require 'fs'
 rd = require 'rd'
 path = require 'path'
 
-{_}=require 'underscore'
+{_} = require 'underscore'
+
+{postsIdIndex} = require __dirname + '/../dao/post'
 
 # 评论对象（按评论id排序）
 comments = {}
@@ -22,6 +24,9 @@ rd.eachSync __dirname + '/../data/comments', (f)->
 for filename in JSONList
 	unit = JSON.parse fs.readFileSync filename
 	comments[unit.id] = unit
+
+	postsIdIndex[unit.postId].commentCount++
+
 	maxCommentId = unit.id if unit.id > maxCommentId
 	if _.isArray postComments[unit.postId]
 		postComments[unit.postId].push unit
@@ -30,7 +35,8 @@ for filename in JSONList
 
 # 对于按文章id分类的评论索引，以按日期从早到晚的方式排序
 for postId of postComments
-	postComments[postId].sort (a,b)-> b.commentDate - a.commentDate
+	postComments[postId].sort (a, b)->
+		b.commentDate - a.commentDate
 
 exports.comments = comments
 exports.postComments = postComments

@@ -21,6 +21,9 @@ for filename in JSONList
 	_.last(posts).id = parseInt _.last(posts).id, 10
 	postsIdIndex[_.last(posts).id] = _.last posts
 
+	# 初始化文章评论数，评论数会由dao/comments.coffee生成
+	_.last(posts).commentCount = 0
+
 # 按发表日期，从新到旧排列文章
 posts.sort (a, b)->
 	b.postDate - a.postDate

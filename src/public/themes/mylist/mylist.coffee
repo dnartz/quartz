@@ -94,8 +94,7 @@ angular.module('quartz.theme', ['quartz.config', 'ngRoute', 'infinite-scroll'])
 	]).controller('PostCtrl', ['$routeParams', '$scope', 'AddComment', '$rootScope'
 		($routeParams, $scope, AddComment, $rootScope)->
 			$scope.commentSubmit = {postId : $rootScope.post.id}
-			$scope.AddComment = ->
-				AddComment $scope.commentSubmit
+			$scope.AddComment = -> AddComment $scope.commentSubmit
 
 			# 评论表单重置函数
 			blankForm = {author : '', authorEmail : '', content : '', authorHomePage :''}
@@ -110,8 +109,7 @@ angular.module('quartz.theme', ['quartz.config', 'ngRoute', 'infinite-scroll'])
 			if key[0] isnt '$'
 				for post in archive[key].posts
 					$scope.tposts.push post
-		$scope.tposts.sort (a, b)->
-			b.postDate - a.postDate
+		$scope.tposts.sort (a, b)-> b.postDate - a.postDate
 
 		val.postDate = new Date(val.postDate) for val in $scope.tposts
 
