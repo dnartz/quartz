@@ -1,5 +1,3 @@
-# @todo: 使用高阶函数进行抽象
-
 url = Quartz.lib.url
 _ = Quartz.lib._
 
@@ -10,11 +8,23 @@ getCategory = Quartz.api.archive
 meta = Quartz.config.meta
 config = Quartz.config.system
 
-currentTheme = 'mylist'
+currentTheme = 'casper'
 # 每隔一段时间随机切换主题
 setInterval(->
 	currentTheme = config.themesList[parseInt(Math.random() * (config.themesList.length - 1))]
 , 3600000)
+
+# 将offset和query都转换成number
+preTreatment = (fn)->
+	(req, res)->
+		query = (url.parse req.url, true).query
+
+		if _.isUndefined query.moreTag then query.moreTag = Quartz.lib.utility.misc.char2Bool query.moreTag
+
+		if _.isUndefined query.offset then query.offset = null else query.offset = parseInt query.offset, 10
+		if _.isUndefined query.limit then query.limit = null else query.limit = parseInt query.limit, 10
+
+		fn req, res, query
 
 #
 # * GET main frame.
@@ -48,13 +58,7 @@ exports.post = (req, res)->
 #
 # * GET multi posts data
 #
-exports.multiPost = (req, res)->
-	query = (url.parse req.url, true).query
-	if query.moreTag == 'true' then query.moreTag = true else query.moreTag = false
-
-	if _.isUndefined query.offset then query.offset = null else query.offset = parseInt query.offset, 10
-	if _.isUndefined query.limit then query.limit = null else query.limit = parseInt query.limit, 10
-
+exports.multiPost = preTreatment (req, res, query)->
 	ret = post.getPropertiesByOrder(
 		[query.offset...query.offset + query.limit],
 		query.get,
@@ -73,13 +77,7 @@ exports.archive = (req, res)->
 #
 # * GET posts by categories
 #
-exports.getPostsByCategories = (req, res)->
-	query = (url.parse req.url, true).query
-	if _.isUndefined query.offset then query.offset = null else query.offset = parseInt query.offset, 10
-	if _.isUndefined query.limit then query.limit = null else query.limit = parseInt query.limit, 10
-
-	if query.moreTag == 'true' then query.moreTag = true else query.moreTag = false
-
+exports.getPostsByCategories = preTreatment (req, res, query)->
 	if query.limit > config.maxPostPerRequest
 		res.status(404).send()
 	else
@@ -98,14 +96,7 @@ exports.getPostsByCategories = (req, res)->
 #
 # * GET posts by single tag
 #
-exports.getPostsBySingleTag = (req, res)->
-	query = (url.parse req.url, true).query
-
-	if _.isUndefined query.offset then query.offset = null else query.offset = parseInt query.offset, 10
-	if _.isUndefined query.limit then query.limit = null else query.limit = parseInt query.limit, 10
-
-	if query.moreTag == 'true' then query.moreTag = true else query.moreTag = false
-
+exports.getPostsBySingleTag = preTreatment (req, res, query)->
 	result = post.getPropertiesByTag(
 		req.param('tag'),
 		query.get,
@@ -132,11 +123,7 @@ exports.getCommentById = (req, res)->
 #
 # * GET comments by post id
 #
-exports.getCommentsByPostId = (req, res)->
-	query = (url.parse req.url, true).query
-	if _.isUndefined query.offset then query.offset = null else query.offset = parseInt query.offset, 10
-	if _.isUndefined query.limit then query.limit = null else query.limit = parseInt query.limit, 10
-
+exports.getCommentsByPostId = preTreatment (req, res, query)->
 	ret = comment.getCommentsByPostId req.param('id'), query.get, query.offset, query.limit
 	if ret is false
 		res.status(404).send()

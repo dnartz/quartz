@@ -5,7 +5,7 @@ angular.module('quartz.theme', ['quartz.config', 'ngRoute', 'infinite-scroll'])
 			$routeProvider.when(routeUrls.HomePage, {
 				controller : 'MultiPostCtrl'
 				resolve :
-					posts : (MultiPostLoader)->
+					posts : ['MultiPostLoader', (MultiPostLoader)->
 						MultiPostLoader {
 							type : 'Post'
 							offset : 0
@@ -13,15 +13,15 @@ angular.module('quartz.theme', ['quartz.config', 'ngRoute', 'infinite-scroll'])
 							get : ['id', 'tags', 'title', 'content', 'postDate']
 							moreTag : true
 						}
-					type : ->
-						'Post'
+					]
+					type : -> 'Post'
 				templateUrl : 'multipost.html'
 
 			# 分类
 			}).when(routeUrls.Category, {
 				controller : 'MultiPostCtrl'
 				resolve :
-					posts : (MultiPostLoader)->
+					posts : ['MultiPostLoader', (MultiPostLoader)->
 						MultiPostLoader {
 							type : 'Category'
 							offset : 0
@@ -29,6 +29,7 @@ angular.module('quartz.theme', ['quartz.config', 'ngRoute', 'infinite-scroll'])
 							get : ['id', 'tags', 'title', 'content', 'postDate']
 							moreTag : true
 						}
+					]
 					type : ->
 						'Category'
 				templateUrl : 'multipost.html'
@@ -37,7 +38,7 @@ angular.module('quartz.theme', ['quartz.config', 'ngRoute', 'infinite-scroll'])
 			}).when(routeUrls.Tag, {
 				controller : 'MultiPostCtrl'
 				resolve :
-					posts : (MultiPostLoader)->
+					posts : ['MultiPostLoader', (MultiPostLoader)->
 						MultiPostLoader {
 							type : 'Tag'
 							offset : 0
@@ -45,6 +46,7 @@ angular.module('quartz.theme', ['quartz.config', 'ngRoute', 'infinite-scroll'])
 							get : ['id', 'tags', 'title', 'content', 'postDate']
 							moreTag : true
 						}
+					]
 					type : ->
 						'Tag'
 				templateUrl : 'multipost.html'
@@ -52,30 +54,28 @@ angular.module('quartz.theme', ['quartz.config', 'ngRoute', 'infinite-scroll'])
 			}).when(routeUrls.Single, {
 				controller : 'PostCtrl'
 				resolve :
-					post : (PostLoader)->
-						PostLoader()
-					comments : ($route, CommentLoader) ->
+					post : ['PostLoader', (PostLoader)-> PostLoader()]
+					comments : ['$route', 'CommentLoader', ($route, CommentLoader) ->
 						CommentLoader {
 							id : $route.current.params.id
 							get : ['postDate', 'id', 'content', 'author', 'authorEmailMD5', 'commentDate']
 							offset : 0
 							limit : 15
 						}
+					]
 				templateUrl : '/public/themes/mylist/post.html'
 
 			# 文章存档
 			}).when(routeUrls.Archive, {
 				controller : 'ArchiveCtrl'
 				resolve :
-					archive : (ArchiveLoader)->
-						ArchiveLoader ['id', 'title', 'postDate'], true
+					archive : ['ArchiveLoader', (ArchiveLoader)-> ArchiveLoader ['id', 'title', 'postDate'], true]
 				templateUrl : '/public/themes/mylist/archive.html'
 
 			# 404页面
 			}).when(routeUrls['404'], {
 				resolve :
-					t : (NotFoundLoader)->
-						NotFoundLoader()
+					t : ['NotFoundLoader', (NotFoundLoader)-> NotFoundLoader()]
 				controller : 'NotFoundCtrl'
 				templateUrl : '/public/themes/mylist/404.html'
 			}).otherwise({redirectTo : '/404'})
@@ -128,11 +128,12 @@ angular.module('quartz.theme', ['quartz.config', 'ngRoute', 'infinite-scroll'])
 			method: "&"
 			condition: "&clickIf"
 
-		link: ($scope, elem, attrs) ->
+		link: ['$scope', 'elem', 'attrs', ($scope, elem, attrs) ->
 			if $scope.condition()
 				elem.bind "click", (event) ->
 					event.preventDefault()
 					$scope.method id: attrs.val
+		]
 
 $("#bottom-menu").hover (->
 	$("#bottom-menu-img").animate

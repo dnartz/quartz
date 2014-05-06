@@ -19,3 +19,6 @@ exports.idsCheck = (ids)->
 exports.plain2HTML = (str)->
 	return str.replace(/\t/g, "    ").replace(RegExp("  ", "g"), "&nbsp; ").replace(RegExp("  ", "g"),
 		" &nbsp;").replace(/\r\n|\n|\r/g, "<br>")
+
+# 将字符串转换成布尔型
+exports.char2Bool = (chr)-> return chr is 'true'

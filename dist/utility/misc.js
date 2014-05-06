@@ -32,3 +32,7 @@ exports.idsCheck = function(ids) {
 exports.plain2HTML = function(str) {
   return str.replace(/\t/g, "    ").replace(RegExp("  ", "g"), "&nbsp; ").replace(RegExp("  ", "g"), " &nbsp;").replace(/\r\n|\n|\r/g, "<br>");
 };
+
+exports.char2Bool = function(chr) {
+  return chr === 'true';
+};

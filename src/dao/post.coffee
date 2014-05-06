@@ -2,7 +2,7 @@ rd = Quartz.lib.rd
 fs = Quartz.lib.fs
 path = Quartz.lib.path
 
-{_} = Quartz.lib._
+_ = Quartz.lib._
 
 # 读取所有文章信息
 

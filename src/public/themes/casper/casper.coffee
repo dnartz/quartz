@@ -5,7 +5,7 @@ angular.module('quartz.theme', ['quartz.config', 'ngRoute', 'infinite-scroll'])
 			$routeProvider.when(routeUrls.HomePage, {
 				controller: 'MultiPostCtrl'
 				resolve:
-					posts: (MultiPostLoader)->
+					posts: ['MultiPostLoader', (MultiPostLoader)->
 						MultiPostLoader {
 							type: 'Post'
 							offset: 0
@@ -13,6 +13,7 @@ angular.module('quartz.theme', ['quartz.config', 'ngRoute', 'infinite-scroll'])
 							get: ['id', 'tags', 'title', 'content', 'postDate']
 							moreTag: true
 						}
+					]
 					type: ->
 						'Post'
 				templateUrl: 'multipost.html'
@@ -21,7 +22,7 @@ angular.module('quartz.theme', ['quartz.config', 'ngRoute', 'infinite-scroll'])
 			}).when(routeUrls.Category, {
 				controller: 'MultiPostCtrl'
 				resolve:
-					posts: (MultiPostLoader)->
+					posts: ['MultiPostLoader', (MultiPostLoader)->
 						MultiPostLoader {
 							type: 'Category'
 							offset: 0
@@ -29,6 +30,7 @@ angular.module('quartz.theme', ['quartz.config', 'ngRoute', 'infinite-scroll'])
 							get: ['id', 'tags', 'title', 'content', 'postDate']
 							moreTag: true
 						}
+					]
 					type: ->
 						'Category'
 				templateUrl: 'multipost.html'
@@ -37,7 +39,7 @@ angular.module('quartz.theme', ['quartz.config', 'ngRoute', 'infinite-scroll'])
 			}).when(routeUrls.Tag, {
 				controller: 'MultiPostCtrl'
 				resolve:
-					posts: (MultiPostLoader)->
+					posts: ['MultiPostLoader', (MultiPostLoader)->
 						MultiPostLoader {
 							type: 'Tag'
 							offset: 0
@@ -45,6 +47,7 @@ angular.module('quartz.theme', ['quartz.config', 'ngRoute', 'infinite-scroll'])
 							get: ['id', 'tags', 'title', 'content', 'postDate']
 							moreTag: true
 						}
+					]
 					type: ->
 						'Tag'
 				templateUrl: 'multipost.html'
@@ -52,23 +55,20 @@ angular.module('quartz.theme', ['quartz.config', 'ngRoute', 'infinite-scroll'])
 			}).when(routeUrls.Single, {
 				controller: 'PostCtrl'
 				resolve:
-					post: (PostLoader)->
-						PostLoader()
+					post: ['PostLoader', (PostLoader)-> PostLoader()]
 				templateUrl: '/public/themes/casper/post.html'
 
 			# 文章存档
 			}).when(routeUrls.Archive, {
 				controller: 'ArchiveCtrl'
 				resolve:
-					archive: (ArchiveLoader)->
-						ArchiveLoader ['id', 'title', 'postDate'], true
+					archive: ['ArchiveLoader', (ArchiveLoader)-> ArchiveLoader ['id', 'title', 'postDate'], true]
 				templateUrl: '/public/themes/casper/archive.html'
 
 			# 404页面
 			}).when(routeUrls['404'], {
 				resolve:
-					t: (NotFoundLoader)->
-						NotFoundLoader()
+					t: ['NotFoundLoader', (NotFoundLoader)-> NotFoundLoader()]
 				controller: 'NotFoundCtrl'
 				templateUrl: '/public/themes/casper/404.html'
 			}).otherwise({redirectTo: '/404'})

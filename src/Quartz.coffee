@@ -26,6 +26,7 @@ Quartz.dao.category = require './dao/category'
 Quartz.config = {}
 Quartz.config.meta = require './dao/meta'
 Quartz.config.system = require './data/config/config'
+Quartz.config.system.themesList = require './dao/theme'
 
 # API
 Quartz.api = {}

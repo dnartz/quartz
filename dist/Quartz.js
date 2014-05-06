@@ -41,6 +41,8 @@ Quartz.config.meta = require('./dao/meta');
 
 Quartz.config.system = require('./data/config/config');
 
+Quartz.config.system.themesList = require('./dao/theme');
+
 Quartz.api = {};
 
 Quartz.api.post = require('./models/post');
