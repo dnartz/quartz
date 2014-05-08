@@ -24,8 +24,8 @@ Quartz.dao.category = require './dao/category'
 
 # 平台配置
 Quartz.config = {}
-Quartz.config.meta = require './dao/meta'
-Quartz.config.system = require './data/config/config'
+Quartz.config.meta = require './data/config/meta'
+Quartz.config.system = require './data/config/system'
 Quartz.config.system.themesList = require './dao/theme'
 
 # API

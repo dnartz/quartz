@@ -1,4 +1,4 @@
-{
+module.exports = {
   "adminEmail": "xylon.tao@gmail.com",
   "blogName": "nook",
   "blogLang": "zh-cn",
@@ -10,4 +10,4 @@
   "minCommentLength": 10,
   "maxCommentLength": 1500,
   "maxPostPerReq": 15
-}
+};
