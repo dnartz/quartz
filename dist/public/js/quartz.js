@@ -187,7 +187,7 @@
           Category: Category,
           Tag: Tag
         }[args.type];
-        if ($route.current.$$route.orginalPath = '/') {
+        if ($route.current.$$route.originalPath === '/') {
           ttyp = 'HomePage';
         } else {
           ttyp = args.type;
@@ -226,7 +226,7 @@
           $rootScope.lastPostOrd = $rootScope.posts.length;
           return delay.resolve(posts);
         }, function() {
-          return delay.reject('Unable to Fetch posts');
+          return delay.reject('获取文章失败。');
         });
         return delay.promise;
       };
@@ -252,7 +252,7 @@
 
   quartzService.factory('PostLoader', [
     'Post', '$q', '$route', '$rootScope', 'titleFn', function(Post, $q, $route, $rootScope, titleFn) {
-      return function() {
+      return function(get) {
         var delay;
         delay = $q.defer();
         Post.get({

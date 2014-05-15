@@ -1,5 +1,5 @@
 # 多篇文章的服务
-quartzService.factory 'MultiPostLoader', ['Post', 'Category', 'Tag', '$rootScope', '$q', '$route', 'titleFn'
+quartzService.factory 'MultiPostLoader', ['Post', 'Category', 'Tag', '$rootScope', '$q', '$route', 'titleFn',
 	(Post, Category, Tag, $rootScope, $q, $route, titleFn)->
 		prevType = ''
 		prevTag = ''
@@ -8,12 +8,11 @@ quartzService.factory 'MultiPostLoader', ['Post', 'Category', 'Tag', '$rootScope
 			delay = $q.defer()
 
 			typ = ({Post: Post, Category: Category, Tag: Tag })[args.type]
-			if $route.current.$$route.orginalPath = '/' then ttyp = 'HomePage' else ttyp = args.type
+			if $route.current.$$route.originalPath is '/' then ttyp = 'HomePage' else ttyp = args.type
 
 			# 判断是否为同一页面的请求
 			if prevType isnt args.type or prevTag isnt $route.current.params.tag or prevCategory isnt $route.current.params.category
 				# 如果不是，就清空文章数组
-
 				prevType = args.type
 				prevTag = $route.current.params.tag
 				prevCategory = $route.current.params.category
@@ -45,7 +44,7 @@ quartzService.factory 'MultiPostLoader', ['Post', 'Category', 'Tag', '$rootScope
 
 				delay.resolve posts
 			, ->
-				delay.reject 'Unable to Fetch posts')
+				delay.reject '获取文章失败。')
 
 			delay.promise
 ]

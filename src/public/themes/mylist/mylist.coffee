@@ -128,12 +128,11 @@ angular.module('quartz.theme', ['quartz.config', 'ngRoute', 'infinite-scroll'])
 			method: "&"
 			condition: "&clickIf"
 
-		link: ['$scope', 'elem', 'attrs', ($scope, elem, attrs) ->
+		link: ($scope, elem, attrs) ->
 			if $scope.condition()
 				elem.bind "click", (event) ->
 					event.preventDefault()
 					$scope.method id: attrs.val
-		]
 
 $("#bottom-menu").hover (->
 	$("#bottom-menu-img").animate

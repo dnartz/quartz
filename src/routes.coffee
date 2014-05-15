@@ -8,7 +8,7 @@ getCategory = Quartz.api.archive
 meta = Quartz.config.meta
 config = Quartz.config.system
 
-currentTheme = 'tanzaku'
+currentTheme = 'none'
 # 每隔一段时间随机切换主题
 setInterval(->
 	currentTheme = config.themesList[parseInt(Math.random() * (config.themesList.length - 1))]

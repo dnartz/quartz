@@ -10,34 +10,37 @@
     <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900,200italic,300italic,400italic,600italic,700italic,900italic"
           rel="stylesheet" type="text/css">
     <link href="/public/themes/none/none.css" type="text/css" rel="stylesheet">
-    <link href="/public/themes/none/typo.css" type="text/css" rel="stylesheet">
     <link rel="stylesheet" href="/public/css/scrollBarBeautify.css" type="text/css" media="screen, print"/>
 
     <title ng-bind="meta.title">加载中……</title>
 </head>
 <body>
+<img id="top" src="/public/themes/none/bkg.jpg" ng-if="meta.isHomePage" class="top-bg">
+<img id="top-bg" src="/public/themes/none/bkg-blur.jpg" ng-if="meta.isHomePage" class="top-bg">
+<header ng-if="meta.isHomePage" none-title-init class="site-head">
+    <div class="title">
+        <img class="logo">
+
+        <div class="inner">
+            <h1 ng-bind="meta.blogName"></h1>
+
+            <h2 ng-bind="meta.blogDescription"></h2>
+        </div>
+
+        <img id="down" src="/public/themes/none/down.png" class="down">
+    </div>
+</header>
+
 <ng-view></ng-view>
 
-<script id="mutilpost.html" type="text/ng-template">
-    <header class="site-head">
-        <img id="top" src="www.baidu.com" class="top-bg">
-        <img id="top-bg" src="www.baidu.com" class="top-bg">
-        <div class="title">
-            <img class="logo">
-            <div class="inner">
-                <h1 ng-bind="meta.blogName"></h1>
-                <h2 ng-bind="meta.blogDescription"></h2>
-            </div>
-        </div>
-        <div><img id="down" src="/public/themes/none/down.png" class="down"></div>
-    </header>
+<script id="multipost.html" type="text/ng-template">
     <div class="main">
         <ul class="PostList">
             <li ng-repeat="post in posts">
-                <h1 class="title"><a href="/{{post.id}}/post.title" ng-bind="post.title"></a></h1>
-                <div class="content" ng-bind="post.content"></div>
+                <h1 class="title"><a href="/{{post.id}}/{{post.title}}" ng-bind="post.title"></a></h1>
+                <time class="date" ng-bind="post.postDate | date:'MMM d,yyyy H:mm'"></time>
+                <article class="content" ng-bind-html="post.content"></article>
                 <div class="data">
-                    <div class="date" ng-bind="post.postDate | date:'YY-MM-DD'"></div>
                     <div class="tag">
                         <a ng-repeat="tag in post.tags" ng-bind="tag" href="/tag/{{tag}}" class="tag"></a>
                     </div>

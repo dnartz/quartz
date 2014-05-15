@@ -35,7 +35,7 @@
 
                         <div class="comment-meta commentmetadata" ng-bind="comment.postDate | date:'MMM d,yyyy H:mm'"></div>
 
-                        <p ng-bind="comment.content"></p>
+                        <p ng-bind-html="comment.content"></p>
                     </div>
                 </li>
             </ol>

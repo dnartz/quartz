@@ -14,7 +14,7 @@ meta = Quartz.config.meta;
 
 config = Quartz.config.system;
 
-currentTheme = 'tanzaku';
+currentTheme = 'none';
 
 setInterval(function() {
   return currentTheme = config.themesList[parseInt(Math.random() * (config.themesList.length - 1))];

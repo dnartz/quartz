@@ -178,18 +178,16 @@
         method: "&",
         condition: "&clickIf"
       },
-      link: [
-        '$scope', 'elem', 'attrs', function($scope, elem, attrs) {
-          if ($scope.condition()) {
-            return elem.bind("click", function(event) {
-              event.preventDefault();
-              return $scope.method({
-                id: attrs.val
-              });
+      link: function($scope, elem, attrs) {
+        if ($scope.condition()) {
+          return elem.bind("click", function(event) {
+            event.preventDefault();
+            return $scope.method({
+              id: attrs.val
             });
-          }
+          });
         }
-      ]
+      }
     };
   });
 

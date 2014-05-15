@@ -3,7 +3,7 @@ module.exports = (grunt)->
 		pkg: grunt.file.readJSON 'package.json'
 
 		clean:
-			first: ['dist']
+			rebuild: ['dist']
 			final: ['dist/**/*.coffee', 'dist/**/angular-*.js']
 
 		copy:
@@ -12,12 +12,8 @@ module.exports = (grunt)->
 					{
 						expand: true,
 						cwd: 'src',
-						src: [ 'public/css/**',
-									 'public/themes/**',
-									 'utility/**/*.js'
-									 'data/posts/1.json',
-									 'data/comments/1.json',
-									 'data/comments/2.json'],
+						src: [ 'public/favicon.ico', 'public/css/**', 'public/themes/**', 'utility/**/*.js', 'data/posts/1.json',
+									 'data/comments/1.json', 'data/comments/2.json'],
 						dest: 'dist/'
 					}
 				]
@@ -63,6 +59,7 @@ module.exports = (grunt)->
 					'angular-resource.js': 'angular-resource/angular-resource.js'
 					'angular-route.js': 'angular-route/angular-route.js'
 					'angular-sanitize.js': 'angular-sanitize/angular-sanitize.js'
+					'angular-animate.js': 'angular-animate/angular-animate.js'
 					'ng-infinite-scroll.js': 'ngInfiniteScroll/build/ng-infinite-scroll.js'
 					'jquery.js': 'jquery/dist/jquery.js'
 					'jquery-migrate.js': 'jquery-migrate/jquery-migrate.js'
@@ -121,7 +118,6 @@ module.exports = (grunt)->
 	grunt.loadNpmTasks 'grunt-contrib-htmlmin'
 	grunt.loadNpmTasks 'grunt-bowercopy'
 
-	grunt.registerTask 'dev', ['clean:first', 'copy:base', 'copy:dev', 'coffee:*', 'bowercopy', 'concat', 'clean:final']
-	grunt.registerTask 'product', ['clean:first', 'copy:base', 'coffee:*', 'bowercopy', 'concat', 'uglify', 'cssmin',
-																 'htmlmin',
-																 'clean:final']
+	grunt.registerTask 'dev', ['clean:rebuild', 'copy:base', 'copy:dev', 'coffee:*', 'bowercopy', 'concat', 'clean:final']
+	grunt.registerTask 'product', ['clean:rebuild', 'copy:base', 'coffee:*', 'bowercopy', 'concat', 'uglify', 'cssmin',
+																 'htmlmin', 'clean:final']

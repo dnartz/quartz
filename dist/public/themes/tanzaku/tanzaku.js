@@ -4,15 +4,17 @@
       return $routeProvider.when(routeUrls.HomePage, {
         controller: 'MultiPostCtrl',
         resolve: {
-          posts: function(MultiPostLoader) {
-            return MultiPostLoader({
-              type: 'Post',
-              offset: 0,
-              limit: maxPostsPerReq,
-              get: ['id', 'tags', 'title', 'content', 'postDate', 'category'],
-              moreTag: true
-            });
-          },
+          posts: [
+            'MultiPostLoader', function(MultiPostLoader) {
+              return MultiPostLoader({
+                type: 'Post',
+                offset: 0,
+                limit: maxPostsPerReq,
+                get: ['id', 'tags', 'title', 'content', 'postDate', 'category'],
+                moreTag: true
+              });
+            }
+          ],
           type: function() {
             return 'Post';
           }
@@ -21,15 +23,17 @@
       }).when(routeUrls.Category, {
         controller: 'MultiPostCtrl',
         resolve: {
-          posts: function(MultiPostLoader) {
-            return MultiPostLoader({
-              type: 'Category',
-              offset: 0,
-              limit: maxPostsPerReq,
-              get: ['id', 'tags', 'title', 'content', 'postDate'],
-              moreTag: true
-            });
-          },
+          posts: [
+            'MultiPostLoader', function(MultiPostLoader) {
+              return MultiPostLoader({
+                type: 'Category',
+                offset: 0,
+                limit: maxPostsPerReq,
+                get: ['id', 'tags', 'title', 'content', 'postDate'],
+                moreTag: true
+              });
+            }
+          ],
           type: function() {
             return 'Category';
           }
@@ -38,15 +42,17 @@
       }).when(routeUrls.Tag, {
         controller: 'MultiPostCtrl',
         resolve: {
-          posts: function(MultiPostLoader) {
-            return MultiPostLoader({
-              type: 'Tag',
-              offset: 0,
-              limit: maxPostsPerReq,
-              get: ['id', 'tags', 'title', 'content', 'postDate', 'category'],
-              moreTag: true
-            });
-          },
+          posts: [
+            'MultiPostLoader', function(MultiPostLoader) {
+              return MultiPostLoader({
+                type: 'Tag',
+                offset: 0,
+                limit: maxPostsPerReq,
+                get: ['id', 'tags', 'title', 'content', 'postDate', 'category'],
+                moreTag: true
+              });
+            }
+          ],
           type: function() {
             return 'Tag';
           }
@@ -55,17 +61,21 @@
       }).when(routeUrls.Single, {
         controller: 'PostCtrl',
         resolve: {
-          post: function(PostLoader) {
-            return PostLoader();
-          },
-          comments: function($route, CommentLoader) {
-            return CommentLoader({
-              id: $route.current.params.id,
-              get: ['postDate', 'id', 'content', 'author', 'authorEmailMD5', 'commentDate'],
-              offset: 0,
-              limit: 15
-            });
-          }
+          post: [
+            'PostLoader', function(PostLoader) {
+              return PostLoader();
+            }
+          ],
+          comments: [
+            '$route', 'CommentLoader', function($route, CommentLoader) {
+              return CommentLoader({
+                id: $route.current.params.id,
+                get: ['postDate', 'id', 'content', 'author', 'authorEmailMD5', 'commentDate'],
+                offset: 0,
+                limit: 15
+              });
+            }
+          ]
         },
         templateUrl: '/public/themes/tanzaku/post.html'
       }).otherwise({
