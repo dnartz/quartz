@@ -1,4 +1,4 @@
-var comment, config, currentTheme, getCategory, meta, post, preTreatment, url, _;
+var comment, config, currentTheme, getCategory, post, preTreatment, url, _;
 
 url = Quartz.lib.url;
 
@@ -9,8 +9,6 @@ post = Quartz.api.post;
 comment = Quartz.api.comment;
 
 getCategory = Quartz.api.archive;
-
-meta = Quartz.config.meta;
 
 config = Quartz.config.system;
 
@@ -54,10 +52,6 @@ exports.index = function(req, res) {
   }
 };
 
-exports.meta = function(req, res) {
-  return res.json(meta);
-};
-
 exports.post = function(req, res) {
   var result;
   result = post.getAllById(req.param('id'));
@@ -88,7 +82,7 @@ exports.archive = function(req, res) {
 
 exports.getPostsByCategories = preTreatment(function(req, res, query) {
   var result;
-  if (query.limit > config.maxPostPerRequest) {
+  if (query.limit > config.maxPostsPerReq) {
     return res.status(404).send();
   } else {
     result = post.getPropertiesByCategory(req.param('category'), query.get, query.offset, query.limit, query.moreTag);

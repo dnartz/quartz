@@ -5,7 +5,6 @@ post = Quartz.api.post
 comment = Quartz.api.comment
 getCategory = Quartz.api.archive
 
-meta = Quartz.config.meta
 config = Quartz.config.system
 
 currentTheme = 'none'
@@ -40,12 +39,6 @@ exports.index = (req, res) ->
 				res.sendfile "public/themes/#{currentTheme}/index.html")
 
 #
-# * GET blog info
-#
-exports.meta = (req, res)->
-	res.json meta
-
-#
 # * GET single post content
 #
 exports.post = (req, res)->
@@ -78,7 +71,7 @@ exports.archive = (req, res)->
 # * GET posts by categories
 #
 exports.getPostsByCategories = preTreatment (req, res, query)->
-	if query.limit > config.maxPostPerRequest
+	if query.limit > config.maxPostsPerReq
 		res.status(404).send()
 	else
 		result = post.getPropertiesByCategory(

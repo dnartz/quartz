@@ -31,10 +31,6 @@ app.use express.static path.join(__dirname, "public")
 # development only
 app.use '/public', express.errorHandler() if "development" is app.get "env"
 
-# 路由表
-# 获取基本配置
-app.get '/api/meta', routes.meta
-
 # 获取文章
 app.get '/api/p', routes.multiPost
 app.get '/api/p/:id(\\d+)', routes.post

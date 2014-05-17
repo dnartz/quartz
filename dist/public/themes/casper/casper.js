@@ -1,6 +1,6 @@
 (function() {
   angular.module('quartz.theme', ['quartz.config', 'ngRoute', 'infinite-scroll']).config([
-    '$routeProvider', 'routeUrls', 'maxPostsPerReq', function($routeProvider, routeUrls, maxPostsPerReq) {
+    '$routeProvider', 'routeUrls', function($routeProvider, routeUrls) {
       return $routeProvider.when(routeUrls.HomePage, {
         controller: 'MultiPostCtrl',
         resolve: {
@@ -9,7 +9,7 @@
               return MultiPostLoader({
                 type: 'Post',
                 offset: 0,
-                limit: maxPostsPerReq,
+                limit: $rootScope.meta.maxPostsPerReq,
                 get: ['id', 'tags', 'title', 'content', 'postDate'],
                 moreTag: true
               });
@@ -24,11 +24,11 @@
         controller: 'MultiPostCtrl',
         resolve: {
           posts: [
-            'MultiPostLoader', function(MultiPostLoader) {
+            'MultiPostLoader', '$rootScope', function(MultiPostLoader, $rootScope) {
               return MultiPostLoader({
                 type: 'Category',
                 offset: 0,
-                limit: maxPostsPerReq,
+                limit: $rootScope.meta.maxPostsPerReq,
                 get: ['id', 'tags', 'title', 'content', 'postDate'],
                 moreTag: true
               });
@@ -43,11 +43,11 @@
         controller: 'MultiPostCtrl',
         resolve: {
           posts: [
-            'MultiPostLoader', function(MultiPostLoader) {
+            'MultiPostLoader', '$rootScope', function(MultiPostLoader, $rootScope) {
               return MultiPostLoader({
                 type: 'Tag',
                 offset: 0,
-                limit: maxPostsPerReq,
+                limit: $rootScope.meta.maxPostsPerReq,
                 get: ['id', 'tags', 'title', 'content', 'postDate'],
                 moreTag: true
               });
@@ -93,12 +93,12 @@
       });
     }
   ]).controller('MultiPostCtrl', [
-    '$rootScope', 'Post', 'MultiPostLoader', 'maxPostsPerReq', 'type', function($rootScope, Post, MultiPostLoader, maxPostsPerReq, type) {
+    '$rootScope', 'Post', 'MultiPostLoader', 'type', function($rootScope, Post, MultiPostLoader, type) {
       return $rootScope.LoadMore = function() {
         MultiPostLoader({
           type: type,
           offset: $rootScope.lastPostOrd,
-          limit: maxPostsPerReq,
+          limit: $rootScope.meta.maxPostsPerReq,
           get: ['id', 'tags', 'title', 'content', 'postDate'],
           moreTag: true
         });

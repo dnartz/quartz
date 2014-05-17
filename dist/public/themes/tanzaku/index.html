@@ -27,28 +27,7 @@
         <p ng-bind="meta.blogDescription"></p>
     </div>
     <ng-view>
-        <script id="multipost.html" type="text/ng-template">
-            <div id="grid-wrapper" infinite-scroll='LoadMore()'>
-                <div ng-repeat="post in posts" class="post-{{post.id}}  grid-item x1" id="post-{{post.id}}">
-                    <h2 class="post-title">
-                        <a href="/{{post.id}}/{{post.title}}" title="{{post.title}}" rel="bookmark" ng-bind="post.title"></a>
-                    </h2>
-
-                    <div class="post-body" ng-bind-html="post.content"></div>
-                    <p ng-if="post.moreTag"><a href="/{{post.id}}/{{post.title}}" class="more-link">余下全文 »</a></p>
-
-                    <p class="post-meta">
-                        发表于 <span ng-bind="post.postDate | date:'yyyy年M月d日 H:mm'"></span><br>
-                        分类： <a href="/category/{{post.category}}" title="查看{{post.category}}中的全部文章" rel="category tag"
-                               ng-bind="post.category"></a>
-                        <br>
-                        标签：
-                        <a href="/tag/{{tag}}" rel="tag" ng-bind="tag" ng-repeat-start="tag in post.tags"></a><span
-                            ng-if="!$last" ng-repeat-end>, </span>
-                    </p>
-                </div>
-            </div>
-        </script>
+        <script id="multipost.html" type="text/ng-template"><div id="grid-wrapper" infinite-scroll='LoadMore()'><div ng-repeat="post in posts" class="post-{{post.id}}  grid-item x1" id="post-{{post.id}}"><h2 class="post-title"><a href="/{{post.id}}/{{post.title}}" title="{{post.title}}" rel="bookmark" ng-bind="post.title"></a></h2><div class="post-body" ng-bind-html="post.content"></div><p ng-if="post.moreTag"><a href="/{{post.id}}/{{post.title}}" class="more-link">余下全文 »</a></p><p class="post-meta">发表于 <span ng-bind="post.postDate | date:'yyyy年M月d日 H:mm'"></span><br>分类：<a href="/category/{{post.category}}" title="查看{{post.category}}中的全部文章" rel="category tag" ng-bind="post.category"></a><br>标签：<a href="/tag/{{tag}}" rel="tag" ng-bind="tag" ng-repeat-start="tag in post.tags"></a><span ng-if="!$last" ng-repeat-end>, </span></p></div></div></script>
     </ng-view>
 </div>
 

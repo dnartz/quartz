@@ -11,7 +11,7 @@ exports.cutContent = function(content, moreTag) {
     moreTag = false;
   }
   ret = content;
-  if (moreTag === true) {
+  if (moreTag) {
     moreTagIndex = ret.indexOf('<!--more-->');
     if (moreTagIndex !== -1) {
       ret = ret.substring(0, moreTagIndex);

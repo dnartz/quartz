@@ -1,15 +1,15 @@
 (function() {
   angular.module('quartz.theme', ['quartz.config', 'ngRoute', 'infinite-scroll']).config([
-    '$routeProvider', 'routeUrls', 'maxPostsPerReq', function($routeProvider, routeUrls, maxPostsPerReq) {
+    '$routeProvider', 'routeUrls', function($routeProvider, routeUrls) {
       return $routeProvider.when(routeUrls.HomePage, {
         controller: 'MultiPostCtrl',
         resolve: {
           posts: [
-            'MultiPostLoader', function(MultiPostLoader) {
+            'MultiPostLoader', '$rootScope', function(MultiPostLoader, $rootScope) {
               return MultiPostLoader({
                 type: 'Post',
                 offset: 0,
-                limit: maxPostsPerReq,
+                limit: $rootScope.meta.maxPostsPerReq,
                 get: ['id', 'tags', 'title', 'content', 'postDate', 'category'],
                 moreTag: true
               });
@@ -24,11 +24,11 @@
         controller: 'MultiPostCtrl',
         resolve: {
           posts: [
-            'MultiPostLoader', function(MultiPostLoader) {
+            'MultiPostLoader', '$rootScope', function(MultiPostLoader, $rootScope) {
               return MultiPostLoader({
                 type: 'Category',
                 offset: 0,
-                limit: maxPostsPerReq,
+                limit: $rootScope.meta.maxPostsPerReq,
                 get: ['id', 'tags', 'title', 'content', 'postDate'],
                 moreTag: true
               });
@@ -43,11 +43,11 @@
         controller: 'MultiPostCtrl',
         resolve: {
           posts: [
-            'MultiPostLoader', function(MultiPostLoader) {
+            'MultiPostLoader', '$rootScope', function(MultiPostLoader, $rootScope) {
               return MultiPostLoader({
                 type: 'Tag',
                 offset: 0,
-                limit: maxPostsPerReq,
+                limit: $rootScope.meta.maxPostsPerReq,
                 get: ['id', 'tags', 'title', 'content', 'postDate', 'category'],
                 moreTag: true
               });
@@ -169,7 +169,7 @@
       };
     }
   ]).controller('MultiPostCtrl', [
-    '$rootScope', 'Post', 'MultiPostLoader', 'redrawGrid', 'maxPostsPerReq', 'type', function($rootScope, Post, MultiPostLoader, redrawGrid, maxPostsPerReq, type) {
+    '$rootScope', 'Post', 'MultiPostLoader', 'redrawGrid', 'type', function($rootScope, Post, MultiPostLoader, redrawGrid, type) {
       setTimeout(function() {
         return redrawGrid(true);
       }, 50);
@@ -179,7 +179,7 @@
           MultiPostLoader({
             type: type,
             offset: $rootScope.lastPostOrd,
-            limit: maxPostsPerReq,
+            limit: $rootScope.meta.maxPostsPerReq,
             get: ['id', 'tags', 'title', 'content', 'postDate'],
             moreTag: true
           }).then(redrawGrid);

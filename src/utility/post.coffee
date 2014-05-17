@@ -7,7 +7,7 @@
 exports.cutContent = (content, moreTag = false)->
 	ret = content
 
-	if moreTag is true
+	if moreTag
 		moreTagIndex = ret.indexOf '<!--more-->'
 		# 如果moreTag为真，就进行相应处理
 		if moreTagIndex isnt -1 then ret = ret.substring 0, moreTagIndex

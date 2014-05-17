@@ -9,7 +9,7 @@
             <br>
             <span class="tags-list">标签：
                 <span ng-repeat="tag in post.tags">
-                    <a class="tag" href="/tag/{{tag}}" ng-bind="tag"></a>
+                    <a class="tag" href="/tag/{{tag}}" title="查看所有含有标签{{tag}}的文章" ng-bind="tag"></a>
                     <span ng-bind="$last?'':', '"></span>
                 </span>
             </span>

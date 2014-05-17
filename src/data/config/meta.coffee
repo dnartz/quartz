@@ -7,7 +7,7 @@ module.exports =
 	siteUrl: "http://localhost:3000/",
 	minCommentLength: 10,
 	maxCommentLength: 1500,
-	maxPostPerReq: 15
+	maxPostsPerReq: 15
 	routeUrls:
 		HomePage: '/'
 		"404": '/404'

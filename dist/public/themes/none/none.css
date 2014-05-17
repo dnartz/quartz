@@ -163,16 +163,13 @@ div.main {
 
 /* 单篇文章页面 */
 
-.page>.main {
+.page > .main {
     margin-top: 70px;
     margin-bottom: 70px;
     margin-left: auto;
     margin-right: auto;
-    width: 700px;
-}
-
-.main article {
     font-size: 22px;
+    width: 700px;
 }
 
 .main article h1 {
@@ -189,7 +186,7 @@ div.main {
     max-width: 100%;
 }
 
-.page .main article blockquote {
+.main article blockquote {
     color: #444333;
     background: none;
     border: none;
@@ -202,6 +199,11 @@ div.main {
 
 .main article h3 {
     font-size: 25px;
+}
+
+.main .homepage-link {
+    text-align: right;
+    display: block;
 }
 
 .main pre {

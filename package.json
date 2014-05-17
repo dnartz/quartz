@@ -24,6 +24,9 @@
     "grunt-contrib-clean": "^0.5.0",
     "grunt-cli": "^0.1.13",
     "grunt-contrib-htmlmin": "^0.3.0",
-    "grunt-contrib-concat": "^0.4.0"
+    "grunt-contrib-concat": "^0.4.0",
+    "grunt-generate": "^0.3.0",
+    "grunt-ejs-static": "^0.4.3",
+    "grunt-ejs": "^0.1.0"
   }
 }

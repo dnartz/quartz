@@ -1,15 +1,15 @@
 angular.module('quartz.theme', ['quartz.config', 'ngRoute', 'infinite-scroll'])
-.config(['$routeProvider', 'routeUrls', 'maxPostsPerReq'
-		($routeProvider, routeUrls, maxPostsPerReq)->
+.config(['$routeProvider', 'routeUrls'
+		($routeProvider, routeUrls)->
 			# 主页
 			$routeProvider.when(routeUrls.HomePage, {
 				controller : 'MultiPostCtrl'
 				resolve :
-					posts : ['MultiPostLoader', (MultiPostLoader)->
+					posts : ['MultiPostLoader', '$rootScope', (MultiPostLoader, $rootScope)->
 						MultiPostLoader {
 							type : 'Post'
 							offset : 0
-							limit : maxPostsPerReq
+							limit : $rootScope.meta.maxPostsPerReq
 							get : ['id', 'tags', 'title', 'content', 'postDate']
 							moreTag : true
 						}
@@ -21,11 +21,11 @@ angular.module('quartz.theme', ['quartz.config', 'ngRoute', 'infinite-scroll'])
 			}).when(routeUrls.Category, {
 				controller : 'MultiPostCtrl'
 				resolve :
-					posts : ['MultiPostLoader', (MultiPostLoader)->
+					posts : ['MultiPostLoader', '$rootScope', (MultiPostLoader, $rootScope)->
 						MultiPostLoader {
 							type : 'Category'
 							offset : 0
-							limit : maxPostsPerReq
+							limit : $rootScope.meta.maxPostsPerReq
 							get : ['id', 'tags', 'title', 'content', 'postDate']
 							moreTag : true
 						}
@@ -38,11 +38,11 @@ angular.module('quartz.theme', ['quartz.config', 'ngRoute', 'infinite-scroll'])
 			}).when(routeUrls.Tag, {
 				controller : 'MultiPostCtrl'
 				resolve :
-					posts : ['MultiPostLoader', (MultiPostLoader)->
+					posts : ['MultiPostLoader', '$rootScope', (MultiPostLoader, $rootScope)->
 						MultiPostLoader {
 							type : 'Tag'
 							offset : 0
-							limit : maxPostsPerReq
+							limit : $rootScope.meta.maxPostsPerReq
 							get : ['id', 'tags', 'title', 'content', 'postDate']
 							moreTag : true
 						}
@@ -80,13 +80,13 @@ angular.module('quartz.theme', ['quartz.config', 'ngRoute', 'infinite-scroll'])
 				templateUrl : '/public/themes/mylist/404.html'
 			}).otherwise({redirectTo : '/404'})
 	]).controller('MultiPostCtrl',
-	['$rootScope', 'Post', 'MultiPostLoader', 'maxPostsPerReq', 'type',
+	['$rootScope', 'Post', 'MultiPostLoader', 'type',
 		($rootScope, Post, MultiPostLoader, maxPostsPerReq, type)->
 			$rootScope.LoadMore = ->
 				MultiPostLoader {
 					type : type
 					offset : $rootScope.lastPostOrd
-					limit : maxPostsPerReq
+					limit : $rootScope.meta.maxPostsPerReq
 					get : ['id', 'tags', 'title', 'content', 'postDate']
 					moreTag : true
 				}

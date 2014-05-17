@@ -7,14 +7,40 @@
 
   quartzConfig = angular.module('quartz.config', []);
 
+  quartzConfig.run([
+    '$rootScope', function($rootScope) {
+      return $rootScope.meta = {
+        "adminEmail": "xylon.tao@gmail.com",
+        "blogName": "nook",
+        "blogLang": "zh-cn",
+        "blogDescription": "及时行乐",
+        "homePage": "http://localhost:3000/",
+        "siteUrl": "http://localhost:3000/",
+        "minCommentLength": 10,
+        "maxCommentLength": 1500,
+        "maxPostsPerReq": 15,
+        "routeUrls": {
+          "404": "/404",
+          "HomePage": "/",
+          "Archive": "/archive",
+          "Category": "/category/:category",
+          "Single": "/:id/:title",
+          "Tag": "/tag/:tag",
+          "aboutMe": "/about"
+        }
+      };
+    }
+  ]);
+
   quartzConfig.constant('routeUrls', {
-    HomePage: '/',
-    "404": '/404',
-    Archive: '/archive',
-    Category: '/category/:category',
-    Single: '/:id/:title',
-    Tag: '/tag/:tag'
-  }).constant('maxPostsPerReq', 15);
+    "404": "/404",
+    "HomePage": "/",
+    "Archive": "/archive",
+    "Category": "/category/:category",
+    "Single": "/:id/:title",
+    "Tag": "/tag/:tag",
+    "aboutMe": "/about"
+  });
 
   quartz.config([
     '$locationProvider', function($locationProvider) {
@@ -23,21 +49,15 @@
   ]);
 
   quartz.run([
-    '$rootScope', '$route', '$http', 'routeUrls', function($rootScope, $route, $http, routeUrls) {
-      $http.get('/api/meta').success(function(data) {
-        if (_.isObject($rootScope.meta) !== true) {
-          $rootScope.meta = {};
-        }
-        return $rootScope.meta = _.extend($rootScope.meta, data);
-      });
+    '$rootScope', function($rootScope) {
       return $rootScope.$on('$routeChangeSuccess', function(e, currentRoute) {
         currentRoute = currentRoute.$$route.originalPath;
-        $rootScope.meta.isHomePage = currentRoute === routeUrls.HomePage;
-        $rootScope.meta.isSinglePost = currentRoute === routeUrls.Single;
-        $rootScope.meta.is404 = currentRoute === routeUrls['404'];
-        $rootScope.meta.isArchive = currentRoute === routeUrls.Archive;
-        $rootScope.meta.isCategory = currentRoute === routeUrls.Category;
-        return $rootScope.meta.isTagPage = currentRoute === routeUrls.Tag;
+        $rootScope.meta.isHomePage = currentRoute === $rootScope.meta.routeUrls.HomePage;
+        $rootScope.meta.isSinglePost = currentRoute === $rootScope.meta.routeUrls.Single;
+        $rootScope.meta.is404 = currentRoute === $rootScope.meta.routeUrls['404'];
+        $rootScope.meta.isArchive = currentRoute === $rootScope.meta.routeUrls.Archive;
+        $rootScope.meta.isCategory = currentRoute === $rootScope.meta.routeUrls.Category;
+        return $rootScope.meta.isTagPage = currentRoute === $rootScope.meta.routeUrls.Tag;
       });
     }
   ]);

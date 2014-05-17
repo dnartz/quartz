@@ -49,8 +49,6 @@ if ("development" === app.get("env")) {
   app.use('/public', express.errorHandler());
 }
 
-app.get('/api/meta', routes.meta);
-
 app.get('/api/p', routes.multiPost);
 
 app.get('/api/p/:id(\\d+)', routes.post);

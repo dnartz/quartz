@@ -15,8 +15,8 @@
     <title ng-bind="meta.title">加载中……</title>
 </head>
 <body>
-<img id="top" src="/public/themes/none/bkg.jpg" ng-if="meta.isHomePage" class="top-bg">
-<img id="top-bg" src="/public/themes/none/bkg-blur.jpg" ng-if="meta.isHomePage" class="top-bg">
+<img id="top" src="/public/themes/none/bkg.jpg" ng-if="!meta.isSinglePost" class="top-bg">
+<img id="top-bg" src="/public/themes/none/bkg-blur.jpg" ng-if="!meta.isSinglePost" class="top-bg">
 <header ng-if="meta.isHomePage" none-title-init class="site-head">
     <div class="title">
         <img class="logo">
@@ -35,7 +35,7 @@
 
 <script id="multipost.html" type="text/ng-template">
     <div class="main">
-        <ul class="PostList">
+        <ul class="PostList" infinite-scroll='LoadMore()' infinite-scroll-distance='2'>
             <li ng-repeat="post in posts">
                 <h1 class="title"><a href="/{{post.id}}/{{post.title}}" ng-bind="post.title"></a></h1>
                 <time class="date" ng-bind="post.postDate | date:'MMM d,yyyy H:mm'"></time>

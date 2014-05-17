@@ -1,9 +1,3 @@
-# 博客系统的常量以及变量初始化
-quartzConfig.constant('routeUrls', {
-	HomePage : '/'
-	"404" : '/404'
-	Archive : '/archive'
-	Category : '/category/:category'
-	Single : '/:id/:title'
-	Tag : '/tag/:tag'
-}).constant 'maxPostsPerReq', 15
+quartzConfig.run ['$rootScope', ($rootScope)-> $rootScope.meta = {"adminEmail":"xylon.tao@gmail.com","blogName":"nook","blogLang":"zh-cn","blogDescription":"及时行乐","homePage":"http://localhost:3000/","siteUrl":"http://localhost:3000/","minCommentLength":10,"maxCommentLength":1500,"maxPostsPerReq":15,"routeUrls":{"404":"/404","HomePage":"/","Archive":"/archive","Category":"/category/:category","Single":"/:id/:title","Tag":"/tag/:tag","aboutMe":"/about"}}]
+
+quartzConfig.constant 'routeUrls', {"404":"/404","HomePage":"/","Archive":"/archive","Category":"/category/:category","Single":"/:id/:title","Tag":"/tag/:tag","aboutMe":"/about"}

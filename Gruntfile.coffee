@@ -28,6 +28,16 @@ module.exports = (grunt)->
 					}
 				]
 
+		ejs:
+			AngularConfig:
+				options:
+					meta: JSON.stringify require './src/data/config/meta.coffee'
+					routeUrls: JSON.stringify(require('./src/data/config/meta.coffee').routeUrls)
+				src: ['src/public/js/config/config.ejs']
+				dest: './'
+				expand: true
+				ext: '.coffee'
+
 		coffee:
 			frontendCore:
 				options:
@@ -116,8 +126,10 @@ module.exports = (grunt)->
 	grunt.loadNpmTasks 'grunt-contrib-uglify'
 	grunt.loadNpmTasks 'grunt-contrib-cssmin'
 	grunt.loadNpmTasks 'grunt-contrib-htmlmin'
+	grunt.loadNpmTasks 'grunt-ejs'
 	grunt.loadNpmTasks 'grunt-bowercopy'
 
-	grunt.registerTask 'dev', ['clean:rebuild', 'copy:base', 'copy:dev', 'coffee:*', 'bowercopy', 'concat', 'clean:final']
-	grunt.registerTask 'product', ['clean:rebuild', 'copy:base', 'coffee:*', 'bowercopy', 'concat', 'uglify', 'cssmin',
-																 'htmlmin', 'clean:final']
+	grunt.registerTask 'dev', ['clean:rebuild', 'copy:base', 'copy:dev', 'ejs', 'coffee:*', 'bowercopy', 'concat',
+														 'clean:final']
+	grunt.registerTask 'product', ['clean:rebuild', 'copy:base', 'ejs', 'coffee:*', 'bowercopy', 'concat', 'uglify',
+																 'cssmin', 'htmlmin', 'clean:final']
